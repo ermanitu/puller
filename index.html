@@ -6,12 +6,13 @@
   <title>Configuración Pebble Puller</title>
   <style>
     :root {
-      --primary: #ff4757;
-      --primary-dark: #e84118;
-      --bg: #f8f9fa;
-      --card-bg: #ffffff;
-      --text: #2f3542;
-      --border: #dfe4ea;
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #ffffff;
+      --text-muted: #a0a0a0;
+      --accent: #00e676; /* Verde lima / Betis */
+      --border: #333333;
+      --input-bg: #2a2a2a;
     }
     * {
       box-sizing: border-box;
@@ -32,11 +33,11 @@
     .header h1 {
       font-size: 20px;
       font-weight: 700;
-      color: var(--text);
+      color: var(--accent);
     }
     .header p {
       font-size: 13px;
-      color: #747d8c;
+      color: var(--text-muted);
     }
     .card {
       background: var(--card-bg);
@@ -44,22 +45,19 @@
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 16px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
     .card-title {
       font-size: 15px;
       font-weight: 600;
       margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      color: #ffffff;
     }
     label {
       display: block;
       font-size: 13px;
       font-weight: 600;
       margin-bottom: 6px;
-      color: #57606f;
+      color: var(--text-muted);
     }
     input[type="text"], textarea {
       width: 100%;
@@ -67,26 +65,24 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       font-size: 14px;
-      color: var(--text);
-      background: #fafafa;
+      color: #ffffff;
+      background: var(--input-bg);
       margin-bottom: 12px;
-      font-family: inherit;
     }
     input[type="text"]:focus, textarea:focus {
       outline: none;
-      border-color: var(--primary);
-      background: #fff;
+      border-color: var(--accent);
     }
     textarea {
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 12px;
-      min-height: 90px;
+      font-family: Consolas, Menlo, Monaco, monospace;
+      font-size: 13px;
+      min-height: 70px;
       resize: vertical;
     }
     
-    /* PALETA DE ICONOS NATIVOS PEBBLE */
+    /* PALETA DE ICONOS NATIVOS */
     .icon-palette {
-      background: #f1f2f6;
+      background: #252525;
       border-radius: 8px;
       padding: 10px;
       margin-bottom: 14px;
@@ -94,7 +90,7 @@
     .icon-palette-title {
       font-size: 12px;
       font-weight: 600;
-      color: #747d8c;
+      color: var(--accent);
       margin-bottom: 8px;
       display: block;
     }
@@ -104,19 +100,18 @@
       gap: 6px;
     }
     .icon-chip {
-      background: #fff;
-      border: 1px solid #ced6e0;
+      background: #333333;
+      border: 1px solid #444444;
+      color: #ffffff;
       border-radius: 6px;
-      padding: 4px 10px;
+      padding: 5px 10px;
       font-size: 13px;
       cursor: pointer;
       user-select: none;
-      transition: background 0.2s;
     }
-    .icon-chip:hover, .icon-chip:active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
+    .icon-chip:active {
+      background: var(--accent);
+      color: #000000;
     }
     
     .btn {
@@ -125,26 +120,15 @@
       border: none;
       border-radius: 10px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
     }
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
+    .btn-save {
+      background: var(--accent);
+      color: #000000;
     }
-    .btn-primary:active {
-      background: var(--primary-dark);
-    }
-    .btn-secondary {
-      background: #e4e7eb;
-      color: #2f3542;
-      font-size: 13px;
-      padding: 8px 12px;
-      width: auto;
-      margin-top: -6px;
-      margin-bottom: 12px;
-      border-radius: 6px;
+    .btn-save:active {
+      background: #00c853;
     }
     .script-header {
       display: flex;
@@ -153,17 +137,18 @@
       margin-bottom: 10px;
     }
     .script-badge {
-      background: #ff6b81;
-      color: white;
+      background: #333;
+      color: var(--accent);
       font-size: 11px;
       padding: 2px 8px;
       border-radius: 12px;
       font-weight: bold;
+      border: 1px solid var(--accent);
     }
     .footer {
       text-align: center;
       font-size: 12px;
-      color: #a4b0be;
+      color: #666666;
       margin-top: 20px;
       margin-bottom: 30px;
     }
@@ -172,41 +157,26 @@
 <body>
 
   <div class="header">
-    <h1>Pebble Puller Config</h1>
-    <p>Configura tus APIs, Gluroo y Scripts</p>
+    <h1>Pebble Puller</h1>
+    <p>Configuración de Pantalla y Scripts</p>
   </div>
 
   <!-- SELECTOR DE ICONOS COMPATIBLES -->
   <div class="card">
-    <div class="card-title">💡 Iconos Soportados por Pebble</div>
-    <p style="font-size: 12px; color: #747d8c; margin-bottom: 10px;">
-      Haz clic en un icono para insertarlo en la casilla seleccionada:
-    </p>
+    <div class="card-title">💡 Iconos Compatibles Pebble</div>
     <div class="icon-palette">
-      <span class="icon-palette-title">Corazones y Amor:</span>
+      <span class="icon-palette-title">Toca un icono para pegarlo:</span>
       <div class="icon-grid">
-        <span class="icon-chip" onclick="insertSymbol('♥')">♥ Betis / Salud</span>
-        <span class="icon-chip" onclick="insertSymbol('♡')">♡ Corazón hueco</span>
-      </div>
-
-      <span class="icon-palette-title" style="margin-top:8px;">Deportes y Estado:</span>
-      <div class="icon-grid">
+        <span class="icon-chip" onclick="insertSymbol('♥')">♥ Corazón</span>
         <span class="icon-chip" onclick="insertSymbol('★')">★ Estrella</span>
-        <span class="icon-chip" onclick="insertSymbol('⚡')">⚡ Rayo / Batería</span>
+        <span class="icon-chip" onclick="insertSymbol('⚡')">⚡ Rayo</span>
+        <span class="icon-chip" onclick="insertSymbol('●')">● Punto</span>
         <span class="icon-chip" onclick="insertSymbol('▲')">▲ Subida</span>
         <span class="icon-chip" onclick="insertSymbol('▼')">▼ Bajada</span>
-        <span class="icon-chip" onclick="insertSymbol('●')">● Punto</span>
-        <span class="icon-chip" onclick="insertSymbol('◆')">◆ Rombo</span>
-      </div>
-
-      <span class="icon-palette-title" style="margin-top:8px;">Tiempo y General:</span>
-      <div class="icon-grid">
-        <span class="icon-chip" onclick="insertSymbol('℃')">℃ Grados</span>
-        <span class="icon-chip" onclick="insertSymbol('☀')">☀ Sol</span>
+        <span class="icon-chip" onclick="insertSymbol('℃')">℃ Temp</span>
         <span class="icon-chip" onclick="insertSymbol('☁')">☁ Nube</span>
         <span class="icon-chip" onclick="insertSymbol('☂')">☂ Lluvia</span>
         <span class="icon-chip" onclick="insertSymbol('✔')">✔ Check</span>
-        <span class="icon-chip" onclick="insertSymbol('✈')">✈ Vuelo</span>
       </div>
     </div>
   </div>
@@ -215,7 +185,7 @@
   <div class="card">
     <div class="card-title">🩸 Gluroo / Nightscout</div>
     <label for="gluroo_token">Token de Gluroo (opcional):</label>
-    <input type="text" id="gluroo_token" placeholder="Ej: gluroo-token-12345">
+    <input type="text" id="gluroo_token" placeholder="gluroo-token-12345">
   </div>
 
   <!-- SCRIPTS PERSONALIZADOS (1 a 4) -->
@@ -223,57 +193,56 @@
     <div class="card-title">⚙️ Scripts & URLs Personalizadas</div>
     
     <!-- Script 1 -->
-    <div class="script-block" style="border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 12px;">
+    <div style="border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; margin-bottom: 12px;">
       <div class="script-header">
         <label>Script 1</label>
         <span class="script-badge">U1</span>
       </div>
       <input type="text" id="label_0" placeholder="Etiqueta (ej: ♥ BET)">
-      <textarea id="code_0" placeholder="// Código JS. Llama a callback('resultado')"></textarea>
+      <textarea id="code_0" placeholder='fetchEspn("244", callback);'></textarea>
     </div>
 
     <!-- Script 2 -->
-    <div class="script-block" style="border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 12px;">
+    <div style="border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; margin-bottom: 12px;">
       <div class="script-header">
         <label>Script 2</label>
         <span class="script-badge">U2</span>
       </div>
-      <input type="text" id="label_1" placeholder="Etiqueta (ej: ⚡ AAPL)">
-      <textarea id="code_1" placeholder="// Código JS"></textarea>
+      <input type="text" id="label_1" placeholder="Etiqueta (ej: ⚡ RMA)">
+      <textarea id="code_1" placeholder='fetchEspn("86", callback);'></textarea>
     </div>
 
     <!-- Script 3 -->
-    <div class="script-block" style="border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 12px;">
+    <div style="border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; margin-bottom: 12px;">
       <div class="script-header">
         <label>Script 3</label>
         <span class="script-badge">U3</span>
       </div>
-      <input type="text" id="label_2" placeholder="Etiqueta (ej: ☁ ATM)">
-      <textarea id="code_2" placeholder="// Código JS"></textarea>
+      <input type="text" id="label_2" placeholder="Etiqueta (ej: AAPL)">
+      <textarea id="code_2" placeholder="// Código"></textarea>
     </div>
 
     <!-- Script 4 -->
-    <div class="script-block">
+    <div>
       <div class="script-header">
         <label>Script 4</label>
         <span class="script-badge">U4</span>
       </div>
-      <input type="text" id="label_3" placeholder="Etiqueta (ej: ★ NOTA)">
-      <textarea id="code_3" placeholder="// Código JS"></textarea>
+      <input type="text" id="label_3" placeholder="Etiqueta (ej: NOTA)">
+      <textarea id="code_3" placeholder="// Código"></textarea>
     </div>
   </div>
 
   <!-- BOTÓN GUARDAR -->
-  <button type="button" class="btn btn-primary" onclick="saveAndClose()">GUARDAR EN EL RELOJ</button>
+  <button type="button" class="btn btn-save" onclick="saveAndClose()">GUARDAR CONFIGURACIÓN</button>
 
   <div class="footer">
-    Pebble Puller v2.0 • Compatible con Pebble Time / Round / 2
+    Pebble Puller • Tema Oscuro
   </div>
 
   <script>
     var lastFocusedInput = null;
 
-    // Registrar el último input con foco para insertar el símbolo ahí
     document.addEventListener('focusin', function(e) {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
         lastFocusedInput = e.target;
@@ -289,14 +258,25 @@
         lastFocusedInput.focus();
         lastFocusedInput.setSelectionRange(start + sym.length, start + sym.length);
       } else {
-        // Si no hay input enfocado, inserta en la etiqueta 1
         var def = document.getElementById('label_0');
         def.value = sym + ' ' + def.value;
         def.focus();
       }
     }
 
-    // Cargar datos previos desde URL hash o localStorage
+    // Helper para leer query parameters (como return_to que envía iOS Pebble app)
+    function getQueryParam(variable, defaultVal) {
+      var query = window.location.search.substring(1);
+      var vars = query.split('&');
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (pair[0] === variable) {
+          return decodeURIComponent(pair[1]);
+        }
+      }
+      return defaultVal;
+    }
+
     function loadConfig() {
       try {
         var hash = window.location.hash.substring(1);
@@ -322,11 +302,10 @@
           }
         }
       } catch(e) {
-        console.log("Error cargando configuración:", e);
+        console.log("Error cargando config:", e);
       }
     }
 
-    // Guardar y retornar a Pebble
     function saveAndClose() {
       var scripts = [];
       for (var i = 0; i < 4; i++) {
@@ -345,13 +324,15 @@
         scripts: scripts
       };
 
-      // Guardar en localStorage del navegador
       localStorage.setItem('gluroo_token', config.gluroo_token);
       localStorage.setItem('custom_scripts', JSON.stringify(config.scripts));
 
-      // Retornar a la app de Pebble
-      var returnUrl = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(config));
-      window.location.href = returnUrl;
+      // Detección automática del protocolo de retorno en iOS / Android
+      var return_to = getQueryParam('return_to', 'pebblejs://close#');
+      var configStr = encodeURIComponent(JSON.stringify(config));
+      
+      var targetUrl = return_to + configStr;
+      document.location = targetUrl;
     }
 
     window.onload = loadConfig;
