@@ -102,14 +102,14 @@
 
     textarea {
       width: 100%;
-      height: 115px;
+      height: 70px;
       padding: 10px 12px;
       background: var(--code-bg);
       border: 1px solid var(--input-border);
       border-radius: 8px;
       color: #a4b0be;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 11px;
+      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 12px;
       line-height: 1.4;
       resize: vertical;
       outline: none;
@@ -196,7 +196,7 @@
 <div class="container">
   <header>
     <h1>Pebble JS Puller</h1>
-    <p>Scripts JavaScript personalizados para tu reloj</p>
+    <p>Scripts ultra-compactos para tu reloj</p>
   </header>
 
   <!-- GLUROO TOKEN -->
@@ -210,14 +210,14 @@
     </div>
   </div>
 
-  <!-- SECCIÓN JS SLOTS (1 al 4) -->
+  <!-- SECCIÓN SCRIPTS -->
   <div class="card">
     <div class="card-title">
-      <span>⚡ Scripts JS para Display Inferior</span>
-      <span class="badge">Hasta 4 Scripts</span>
+      <span>⚡ Scripts para Display Inferior</span>
+      <span class="badge">4 Slots</span>
     </div>
     <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
-      Cada script debe llamar a <code>callback("resultado")</code> con el texto que aparecerá en el reloj (máx. 16 caracteres).
+      Usa <code>fetchEspn(ID_EQUIPO, callback)</code> o <code>fetchJson(URL, CAMPO, callback)</code>.
     </p>
 
     <!-- SCRIPT 1 -->
@@ -234,13 +234,14 @@
       </div>
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Código JS (Script 1)</label>
+          <label style="margin: 0;">Script 1</label>
           <div>
-            <button type="button" class="btn-preset" onclick="loadBetisPreset(1)">Plantilla Betis</button>
+            <button type="button" class="btn-preset" onclick="setPreset(1, '💚', 'BET', 'fetchEspn(244, callback);')">Betis</button>
+            <button type="button" class="btn-preset" onclick="setPreset(1, '👑', 'RMA', 'fetchEspn(86, callback);')">Madrid</button>
             <button type="button" class="btn-test" onclick="testScript(1)">Probar JS</button>
           </div>
         </div>
-        <textarea id="code_1" placeholder="fetch('https://...').then(...)"></textarea>
+        <textarea id="code_1" placeholder="fetchEspn(244, callback);"></textarea>
         <div id="res_1" class="test-result"></div>
       </div>
     </div>
@@ -250,22 +251,23 @@
       <div class="row-meta">
         <div>
           <label>Icono</label>
-          <input type="text" id="icon_2" placeholder="🌡" maxlength="4">
+          <input type="text" id="icon_2" placeholder="👑" maxlength="4">
         </div>
         <div>
           <label>Etiqueta</label>
-          <input type="text" id="label_2" placeholder="CASA" maxlength="6">
+          <input type="text" id="label_2" placeholder="RMA" maxlength="6">
         </div>
       </div>
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Código JS (Script 2)</label>
+          <label style="margin: 0;">Script 2</label>
           <div>
-            <button type="button" class="btn-preset" onclick="loadJsonPreset(2)">Plantilla API</button>
+            <button type="button" class="btn-preset" onclick="setPreset(2, '👑', 'RMA', 'fetchEspn(86, callback);')">Madrid</button>
+            <button type="button" class="btn-preset" onclick="setPreset(2, '🔵', 'BAR', 'fetchEspn(83, callback);')">Barça</button>
             <button type="button" class="btn-test" onclick="testScript(2)">Probar JS</button>
           </div>
         </div>
-        <textarea id="code_2" placeholder="fetch('https://...').then(...)"></textarea>
+        <textarea id="code_2" placeholder="fetchEspn(86, callback);"></textarea>
         <div id="res_2" class="test-result"></div>
       </div>
     </div>
@@ -275,22 +277,22 @@
       <div class="row-meta">
         <div>
           <label>Icono</label>
-          <input type="text" id="icon_3" placeholder="⚡" maxlength="4">
+          <input type="text" id="icon_3" placeholder="🌡" maxlength="4">
         </div>
         <div>
           <label>Etiqueta</label>
-          <input type="text" id="label_3" placeholder="LUZ" maxlength="6">
+          <input type="text" id="label_3" placeholder="TEMP" maxlength="6">
         </div>
       </div>
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Código JS (Script 3)</label>
+          <label style="margin: 0;">Script 3</label>
           <div>
-            <button type="button" class="btn-preset" onclick="loadJsonPreset(3)">Plantilla API</button>
+            <button type="button" class="btn-preset" onclick="setPreset(3, '🌡', 'API', 'fetchJson(\'https://api.tu-servidor.com/temp\', \'valor\', callback);')">Plantilla API</button>
             <button type="button" class="btn-test" onclick="testScript(3)">Probar JS</button>
           </div>
         </div>
-        <textarea id="code_3" placeholder="fetch('https://...').then(...)"></textarea>
+        <textarea id="code_3" placeholder="fetchJson('https://...', 'valor', callback);"></textarea>
         <div id="res_3" class="test-result"></div>
       </div>
     </div>
@@ -309,12 +311,12 @@
       </div>
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Código JS (Script 4)</label>
+          <label style="margin: 0;">Script 4</label>
           <div>
             <button type="button" class="btn-test" onclick="testScript(4)">Probar JS</button>
           </div>
         </div>
-        <textarea id="code_4" placeholder="fetch('https://...').then(...)"></textarea>
+        <textarea id="code_4" placeholder="fetchJson('https://...', 'valor', callback);"></textarea>
         <div id="res_4" class="test-result"></div>
       </div>
     </div>
@@ -328,63 +330,53 @@
 </div>
 
 <script>
-  // Minificador automático para no sobrepasar el límite de Pebble (4094 bytes)
-  function minifyCode(js) {
-    if (!js) return '';
-    return js
-      .replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '') // Quitar comentarios
-      .replace(/\s+/g, ' ')                               // Compactar espacios
-      .trim();
+  // Helper integrado para pruebas en el navegador
+  function fetchEspn(teamId, callback) {
+    var url = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/" + teamId + "/schedule";
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var ev = d.events || [];
+        if (!ev.length) { callback("--"); return; }
+        var now = new Date();
+        var live = ev.find(function(e) { return e.competitions && e.competitions[0] && e.competitions[0].status.type.state === 'in'; });
+        var f = ev.filter(function(e) {
+          var c = e.competitions && e.competitions[0];
+          return c && (c.status.type.state === 'post' || (new Date(e.date) <= now && c.competitors && c.competitors[0].score !== undefined));
+        });
+        f.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+        var m = live || f[0] || ev[0];
+        var c = m.competitions[0], h = c.competitors[0], a = c.competitors[1];
+        function s(t) {
+          if (!t) return '';
+          if (typeof t.score === 'object' && t.score !== null) return t.score.displayValue || t.score.value || '';
+          return t.score !== undefined ? String(t.score) : '';
+        }
+        var sh = s(h), sa = s(a), sc = (sh !== '' && sa !== '') ? (sh + '-' + sa) : 'vs';
+        var hb = (h.team.abbreviation || 'LOC').substring(0, 4);
+        var ab = (a.team.abbreviation || 'VIS').substring(0, 4);
+        if (c.status.type.state === 'in' && c.status.displayClock) callback(hb + ' ' + sc + ' ' + ab + ' (' + c.status.displayClock + ')');
+        else callback(hb + ' ' + sc + ' ' + ab);
+      })
+      .catch(function(e) { callback("Error"); });
   }
 
-  // Plantilla del Real Betis Balompié
-  var BETIS_CODE = `var url = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/244/schedule";
-fetch(url)
-  .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(function(d) {
-    var ev = d.events || [];
-    if (!ev.length) { callback("BET: Sin datos"); return; }
-    var now = new Date();
-    var live = ev.find(function(e) { return e.competitions && e.competitions[0] && e.competitions[0].status.type.state === 'in'; });
-    var f = ev.filter(function(e) {
-      var c = e.competitions && e.competitions[0];
-      return c && (c.status.type.state === 'post' || (new Date(e.date) <= now && c.competitors && c.competitors[0].score !== undefined));
-    });
-    f.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
-    var m = live || f[0] || ev[0];
-    var c = m.competitions[0], h = c.competitors[0], a = c.competitors[1];
-    function s(t) {
-      if (!t) return '';
-      if (typeof t.score === 'object' && t.score !== null) return t.score.displayValue || t.score.value || '';
-      return t.score !== undefined ? String(t.score) : '';
-    }
-    var sh = s(h), sa = s(a), sc = (sh !== '' && sa !== '') ? (sh + '-' + sa) : 'vs';
-    var hb = (h.team.abbreviation || 'BET').substring(0, 4);
-    var ab = (a.team.abbreviation || 'RIV').substring(0, 4);
-    if (c.status.type.state === 'in' && c.status.displayClock) callback(hb + ' ' + sc + ' ' + ab + ' (' + c.status.displayClock + ')');
-    else callback(hb + ' ' + sc + ' ' + ab);
-  })
-  .catch(function(e) { callback("Error: " + e.message); });`;
-
-  // Plantilla para APIs JSON
-  var JSON_CODE = `fetch("https://api.tu-servidor.com/datos")
-  .then(function(r) { return r.json(); })
-  .then(function(d) { callback(String(d.valor || d.value || d.result || "--")); })
-  .catch(function() { callback("--"); });`;
-
-  function loadBetisPreset(idx) {
-    document.getElementById('icon_' + idx).value = '💚';
-    document.getElementById('label_' + idx).value = 'BET';
-    document.getElementById('code_' + idx).value = BETIS_CODE;
+  function fetchJson(url, key, callback) {
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var val = key ? d[key] : (d.value || d.val || d.result || d);
+        callback(String(val || "--").substring(0, 16));
+      })
+      .catch(function() { callback("--"); });
   }
 
-  function loadJsonPreset(idx) {
-    document.getElementById('icon_' + idx).value = '🌡';
-    document.getElementById('label_' + idx).value = 'API';
-    document.getElementById('code_' + idx).value = JSON_CODE;
+  function setPreset(idx, icon, label, code) {
+    document.getElementById('icon_' + idx).value = icon;
+    document.getElementById('label_' + idx).value = label;
+    document.getElementById('code_' + idx).value = code;
   }
 
-  // Probar script en navegador con timeout
   function testScript(idx) {
     var code = document.getElementById('code_' + idx).value.trim();
     var resDiv = document.getElementById('res_' + idx);
@@ -403,24 +395,24 @@ fetch(url)
       if (!finished) {
         finished = true;
         resDiv.style.color = '#ff4757';
-        resDiv.innerText = 'Error: Tiempo de espera agotado';
+        resDiv.innerText = 'Error: Timeout';
       }
     }, 6000);
 
     try {
-      var runner = new Function('callback', code);
+      var runner = new Function('callback', 'fetchEspn', 'fetchJson', code);
       runner(function(result) {
         if (finished) return;
         finished = true;
         clearTimeout(timeoutId);
         resDiv.style.color = '#2ed573';
         resDiv.innerText = 'Salida: "' + String(result) + '"';
-      });
+      }, fetchEspn, fetchJson);
     } catch(err) {
       finished = true;
       clearTimeout(timeoutId);
       resDiv.style.color = '#ff4757';
-      resDiv.innerText = 'Error sintaxis: ' + err.message;
+      resDiv.innerText = 'Error: ' + err.message;
     }
   }
 
@@ -436,23 +428,8 @@ fetch(url)
     return defaultVal || null;
   }
 
-  // Cargar configuración previa
   function loadSettings() {
-    var raw = null;
-
-    if (window.location.hash && window.location.hash.length > 1) {
-      var hashContent = window.location.hash.substring(1);
-      if (hashContent.startsWith('settings=')) {
-        raw = decodeURIComponent(hashContent.substring(9));
-      } else {
-        raw = decodeURIComponent(hashContent);
-      }
-    }
-
-    if (!raw) {
-      raw = localStorage.getItem('pebble_js_settings');
-    }
-
+    var raw = localStorage.getItem('pebble_js_settings');
     if (raw) {
       try {
         var s = JSON.parse(raw);
@@ -467,15 +444,13 @@ fetch(url)
             }
           });
         }
-      } catch(e) {
-        console.error("Error cargando configuración:", e);
-      }
+      } catch(e) {}
     } else {
-      loadBetisPreset(1);
+      setPreset(1, '💚', 'BET', 'fetchEspn(244, callback);');
+      setPreset(2, '👑', 'RMA', 'fetchEspn(86, callback);');
     }
   }
 
-  // Guardar configuración y retornar a CloudPebble / Reloj
   document.getElementById('btn-save').addEventListener('click', function() {
     var scripts = [];
     for (var i = 1; i <= 4; i++) {
@@ -489,7 +464,7 @@ fetch(url)
         else if (icon !== '') finalLabel = icon;
 
         scripts.push({
-          code: minifyCode(code),
+          code: code,
           icon: icon,
           label: finalLabel
         });
@@ -507,7 +482,6 @@ fetch(url)
     window.location.href = returnTo + encodeURIComponent(JSON.stringify(config));
   });
 
-  // Cancelar
   document.getElementById('btn-cancel').addEventListener('click', function() {
     var returnTo = getQueryParam('return_to', 'pebblejs://close#');
     window.location.href = returnTo;
