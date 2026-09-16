@@ -18,6 +18,8 @@
       --input-border: #3d3d3d;
       --radius: 12px;
       --code-bg: #181818;
+      --info-bg: #1a252f;
+      --info-border: #2980b9;
     }
 
     * {
@@ -35,7 +37,7 @@
     }
 
     .container {
-      max-width: 550px;
+      max-width: 580px;
       margin: 0 auto;
     }
 
@@ -152,6 +154,81 @@
       display: none;
     }
 
+    /* ESTILOS DE LA SECCIÓN DE AYUDA */
+    details.help-section {
+      background: #151d24;
+      border: 1px solid #233748;
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+    }
+
+    details summary {
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #3498db;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      outline: none;
+    }
+
+    .help-item {
+      background: #0f151b;
+      border: 1px solid #1c2b38;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .help-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .help-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ecf0f1;
+    }
+
+    .help-code {
+      font-family: monospace;
+      font-size: 11px;
+      color: #1abc9c;
+      background: #090c0f;
+      padding: 6px 8px;
+      border-radius: 6px;
+      display: block;
+      margin-bottom: 6px;
+      word-break: break-all;
+    }
+
+    .load-buttons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .btn-load {
+      background: #243342;
+      color: #fff;
+      border: 1px solid #34495e;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    .btn-load:active {
+      background: var(--accent);
+      color: #121212;
+    }
+
     .actions {
       display: flex;
       gap: 12px;
@@ -196,8 +273,107 @@
 <div class="container">
   <header>
     <h1>Pebble JS Puller</h1>
-    <p>Scripts ultra-compactos para tu reloj</p>
+    <p>Scripts ultra-compactos para tu reloj Pebble</p>
   </header>
+
+  <!-- SECCIÓN DE AYUDA Y PLANTILLAS DESPLEGABLE -->
+  <details class="help-section" open>
+    <summary>📚 Catálogo de Ejemplos y Ayuda (Pulsa para ver)</summary>
+    
+    <div style="font-size: 12px; color: #bdc3c7; margin-top: 8px;">
+      Puedes pulsar en <strong>[Slot 1..4]</strong> en cualquiera de los ejemplos siguientes para cargarlo directamente en tu configuración:
+    </div>
+
+    <!-- EJEMPLO: BETIS -->
+    <div class="help-item">
+      <div class="help-item-header">
+        <span class="help-title">⚽ Real Betis (LaLiga / Europa)</span>
+        <div class="load-buttons">
+          Cargar en:
+          <button type="button" class="btn-load" onclick="setPreset(1, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 1</button>
+          <button type="button" class="btn-load" onclick="setPreset(2, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 2</button>
+          <button type="button" class="btn-load" onclick="setPreset(3, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 3</button>
+          <button type="button" class="btn-load" onclick="setPreset(4, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 4</button>
+        </div>
+      </div>
+      <code class="help-code">fetchEspn(244, callback);</code>
+    </div>
+
+    <!-- EJEMPLO: REAL MADRID -->
+    <div class="help-item">
+      <div class="help-item-header">
+        <span class="help-title">⚽ Real Madrid (LaLiga / Champions)</span>
+        <div class="load-buttons">
+          Cargar en:
+          <button type="button" class="btn-load" onclick="setPreset(1, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 1</button>
+          <button type="button" class="btn-load" onclick="setPreset(2, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 2</button>
+          <button type="button" class="btn-load" onclick="setPreset(3, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 3</button>
+          <button type="button" class="btn-load" onclick="setPreset(4, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 4</button>
+        </div>
+      </div>
+      <code class="help-code">fetchEspn(86, callback);</code>
+    </div>
+
+    <!-- EJEMPLO: FC BARCELONA -->
+    <div class="help-item">
+      <div class="help-item-header">
+        <span class="help-title">⚽ FC Barcelona</span>
+        <div class="load-buttons">
+          Cargar en:
+          <button type="button" class="btn-load" onclick="setPreset(1, '🔵', 'BAR', 'fetchEspn(83, callback);')">Slot 1</button>
+          <button type="button" class="btn-load" onclick="setPreset(2, '🔵', 'BAR', 'fetchEspn(83, callback);')">Slot 2</button>
+          <button type="button" class="btn-load" onclick="setPreset(3, '🔵', 'BAR', 'fetchEspn(83, callback);')">Slot 3</button>
+          <button type="button" class="btn-load" onclick="setPreset(4, '🔵', 'BAR', 'fetchEspn(83, callback);')">Slot 4</button>
+        </div>
+      </div>
+      <code class="help-code">fetchEspn(83, callback);</code>
+    </div>
+
+    <!-- EJEMPLO: BITCOIN -->
+    <div class="help-item">
+      <div class="help-item-header">
+        <span class="help-title">💰 Precio Bitcoin (USD)</span>
+        <div class="load-buttons">
+          Cargar en:
+          <button type="button" class="btn-load" onclick="setPreset(1, '💰', 'BTC', 'fetchJson(\'https://api.coincap.io/v2/assets/bitcoin\', \'data\', function(d){ callback(\'$\' + Math.round(d.priceUsd)); });')">Slot 1</button>
+          <button type="button" class="btn-load" onclick="setPreset(2, '💰', 'BTC', 'fetchJson(\'https://api.coincap.io/v2/assets/bitcoin\', \'data\', function(d){ callback(\'$\' + Math.round(d.priceUsd)); });')">Slot 2</button>
+          <button type="button" class="btn-load" onclick="setPreset(3, '💰', 'BTC', 'fetchJson(\'https://api.coincap.io/v2/assets/bitcoin\', \'data\', function(d){ callback(\'$\' + Math.round(d.priceUsd)); });')">Slot 3</button>
+          <button type="button" class="btn-load" onclick="setPreset(4, '💰', 'BTC', 'fetchJson(\'https://api.coincap.io/v2/assets/bitcoin\', \'data\', function(d){ callback(\'$\' + Math.round(d.priceUsd)); });')">Slot 4</button>
+        </div>
+      </div>
+      <code class="help-code">fetchJson('https://api.coincap.io/v2/assets/bitcoin', 'data', function(d){ callback('$' + Math.round(d.priceUsd)); });</code>
+    </div>
+
+    <!-- EJEMPLO: SENSOR / DOMÓTICA -->
+    <div class="help-item">
+      <div class="help-item-header">
+        <span class="help-title">🏠 Sensor / Home Assistant / API</span>
+        <div class="load-buttons">
+          Cargar en:
+          <button type="button" class="btn-load" onclick="setPreset(1, '🏠', 'CASA', 'fetchJson(\'https://tu-api.com/temp\', \'valor\', callback);')">Slot 1</button>
+          <button type="button" class="btn-load" onclick="setPreset(2, '🏠', 'CASA', 'fetchJson(\'https://tu-api.com/temp\', \'valor\', callback);')">Slot 2</button>
+          <button type="button" class="btn-load" onclick="setPreset(3, '🏠', 'CASA', 'fetchJson(\'https://tu-api.com/temp\', \'valor\', callback);')">Slot 3</button>
+          <button type="button" class="btn-load" onclick="setPreset(4, '🏠', 'CASA', 'fetchJson(\'https://tu-api.com/temp\', \'valor\', callback);')">Slot 4</button>
+        </div>
+      </div>
+      <code class="help-code">fetchJson('https://tu-servidor.com/sensor', 'valor', callback);</code>
+    </div>
+
+    <!-- EJEMPLO: CUENTA ATRÁS -->
+    <div class="help-item">
+      <div class="help-item-header">
+        <span class="help-title">⏳ Cuenta atrás (Días fin de año)</span>
+        <div class="load-buttons">
+          Cargar en:
+          <button type="button" class="btn-load" onclick="setPreset(1, '⏳', 'FIN', 'var d=Math.ceil((new Date(\'2026-12-31\')-new Date())/86400000); callback(d+\' d rest\');')">Slot 1</button>
+          <button type="button" class="btn-load" onclick="setPreset(2, '⏳', 'FIN', 'var d=Math.ceil((new Date(\'2026-12-31\')-new Date())/86400000); callback(d+\' d rest\');')">Slot 2</button>
+          <button type="button" class="btn-load" onclick="setPreset(3, '⏳', 'FIN', 'var d=Math.ceil((new Date(\'2026-12-31\')-new Date())/86400000); callback(d+\' d rest\');')">Slot 3</button>
+          <button type="button" class="btn-load" onclick="setPreset(4, '⏳', 'FIN', 'var d=Math.ceil((new Date(\'2026-12-31\')-new Date())/86400000); callback(d+\' d rest\');')">Slot 4</button>
+        </div>
+      </div>
+      <code class="help-code">var d=Math.ceil((new Date('2026-12-31')-new Date())/86400000); callback(d+' d rest');</code>
+    </div>
+  </details>
 
   <!-- GLUROO TOKEN -->
   <div class="card">
@@ -217,7 +393,7 @@
       <span class="badge">4 Slots</span>
     </div>
     <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
-      Usa <code>fetchEspn(ID_EQUIPO, callback)</code> o <code>fetchJson(URL, CAMPO, callback)</code>.
+      Escribe tu código o cárgalo desde los ejemplos de arriba. Pulsa <strong>Probar JS</strong> para verificar la salida.
     </p>
 
     <!-- SCRIPT 1 -->
@@ -235,11 +411,7 @@
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
           <label style="margin: 0;">Script 1</label>
-          <div>
-            <button type="button" class="btn-preset" onclick="setPreset(1, '💚', 'BET', 'fetchEspn(244, callback);')">Betis</button>
-            <button type="button" class="btn-preset" onclick="setPreset(1, '👑', 'RMA', 'fetchEspn(86, callback);')">Madrid</button>
-            <button type="button" class="btn-test" onclick="testScript(1)">Probar JS</button>
-          </div>
+          <button type="button" class="btn-test" onclick="testScript(1)">Probar JS</button>
         </div>
         <textarea id="code_1" placeholder="fetchEspn(244, callback);"></textarea>
         <div id="res_1" class="test-result"></div>
@@ -261,11 +433,7 @@
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
           <label style="margin: 0;">Script 2</label>
-          <div>
-            <button type="button" class="btn-preset" onclick="setPreset(2, '👑', 'RMA', 'fetchEspn(86, callback);')">Madrid</button>
-            <button type="button" class="btn-preset" onclick="setPreset(2, '🔵', 'BAR', 'fetchEspn(83, callback);')">Barça</button>
-            <button type="button" class="btn-test" onclick="testScript(2)">Probar JS</button>
-          </div>
+          <button type="button" class="btn-test" onclick="testScript(2)">Probar JS</button>
         </div>
         <textarea id="code_2" placeholder="fetchEspn(86, callback);"></textarea>
         <div id="res_2" class="test-result"></div>
@@ -277,22 +445,19 @@
       <div class="row-meta">
         <div>
           <label>Icono</label>
-          <input type="text" id="icon_3" placeholder="🌡" maxlength="4">
+          <input type="text" id="icon_3" placeholder="💰" maxlength="4">
         </div>
         <div>
           <label>Etiqueta</label>
-          <input type="text" id="label_3" placeholder="TEMP" maxlength="6">
+          <input type="text" id="label_3" placeholder="BTC" maxlength="6">
         </div>
       </div>
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
           <label style="margin: 0;">Script 3</label>
-          <div>
-            <button type="button" class="btn-preset" onclick="setPreset(3, '🌡', 'API', 'fetchJson(\'https://api.tu-servidor.com/temp\', \'valor\', callback);')">Plantilla API</button>
-            <button type="button" class="btn-test" onclick="testScript(3)">Probar JS</button>
-          </div>
+          <button type="button" class="btn-test" onclick="testScript(3)">Probar JS</button>
         </div>
-        <textarea id="code_3" placeholder="fetchJson('https://...', 'valor', callback);"></textarea>
+        <textarea id="code_3" placeholder="fetchJson('...', '...', callback);"></textarea>
         <div id="res_3" class="test-result"></div>
       </div>
     </div>
@@ -302,21 +467,19 @@
       <div class="row-meta">
         <div>
           <label>Icono</label>
-          <input type="text" id="icon_4" placeholder="📊" maxlength="4">
+          <input type="text" id="icon_4" placeholder="🏠" maxlength="4">
         </div>
         <div>
           <label>Etiqueta</label>
-          <input type="text" id="label_4" placeholder="CO2" maxlength="6">
+          <input type="text" id="label_4" placeholder="CASA" maxlength="6">
         </div>
       </div>
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
           <label style="margin: 0;">Script 4</label>
-          <div>
-            <button type="button" class="btn-test" onclick="testScript(4)">Probar JS</button>
-          </div>
+          <button type="button" class="btn-test" onclick="testScript(4)">Probar JS</button>
         </div>
-        <textarea id="code_4" placeholder="fetchJson('https://...', 'valor', callback);"></textarea>
+        <textarea id="code_4" placeholder="fetchJson('...', '...', callback);"></textarea>
         <div id="res_4" class="test-result"></div>
       </div>
     </div>
@@ -366,7 +529,9 @@
       .then(function(r) { return r.json(); })
       .then(function(d) {
         var val = key ? d[key] : (d.value || d.val || d.result || d);
-        callback(String(val || "--").substring(0, 16));
+        if (typeof callback === 'function') {
+          callback(val);
+        }
       })
       .catch(function() { callback("--"); });
   }
