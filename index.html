@@ -1,371 +1,46 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Configuración Pebble JS Puller</title>
-  <style>
-    :root {
-      --bg-color: #121212;
-      --card-bg: #1e1e1e;
-      --card-border: #2d2d2d;
-      --text-main: #ffffff;
-      --text-muted: #9e9e9e;
-      --accent: #2ed573;
-      --accent-hover: #26af5f;
-      --btn-secondary: #333333;
-      --input-bg: #272727;
-      --input-border: #3d3d3d;
-      --radius: 12px;
-      --code-bg: #181818;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      padding: 16px;
-      line-height: 1.5;
-    }
-
-    .container {
-      max-width: 550px;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    header h1 {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    header p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .form-group {
-      margin-bottom: 10px;
-    }
-
-    label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 9px 12px;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 13px;
-      outline: none;
-    }
-
-    input:focus, textarea:focus {
-      border-color: var(--accent);
-    }
-
-    textarea {
-      width: 100%;
-      height: 110px;
-      padding: 10px 12px;
-      background: var(--code-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 8px;
-      color: #a4b0be;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      font-size: 11px;
-      line-height: 1.4;
-      resize: vertical;
-      outline: none;
-    }
-
-    .row-meta {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .btn-preset {
-      background: #2b2b2b;
-      color: #ced6e0;
-      border: 1px solid #404040;
-      border-radius: 6px;
-      font-size: 11px;
-      padding: 3px 8px;
-      cursor: pointer;
-    }
-
-    .btn-test {
-      background: #3742fa;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 11px;
-      padding: 4px 10px;
-      cursor: pointer;
-      font-weight: 600;
-      float: right;
-    }
-
-    .test-result {
-      font-size: 12px;
-      color: #2ed573;
-      margin-top: 4px;
-      font-family: monospace;
-      display: none;
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      margin: 24px 0 40px 0;
-    }
-
-    button.btn-primary {
-      flex: 2;
-      background: var(--accent);
-      color: #121212;
-      border: none;
-      border-radius: var(--radius);
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    button.btn-secondary {
-      flex: 1;
-      background: var(--btn-secondary);
-      color: var(--text-muted);
-      border: none;
-      border-radius: var(--radius);
-      padding: 14px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .badge {
-      background: rgba(46, 213, 115, 0.15);
-      color: var(--accent);
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 12px;
-    }
-  </style>
-</head>
-<body>
-
-<div class="container">
-  <header>
-    <h1>Pebble JS Puller</h1>
-    <p>Scripts JavaScript personalizados para tu reloj</p>
-  </header>
-
-  <!-- GLUROO TOKEN -->
-  <div class="card">
-    <div class="card-title">
-      <span>🩸 Gluroo (Glucosa)</span>
-    </div>
-    <div class="form-group">
-      <label>Token Gluroo</label>
-      <input type="text" id="gluroo_token" placeholder="Token de Gluroo (opcional)">
-    </div>
-  </div>
-
-  <!-- SECCIÓN JS SLOTS (1 al 4) -->
-  <div class="card">
-    <div class="card-title">
-      <span>⚡ Scripts JS para Display Inferior</span>
-      <span class="badge">Hasta 4 Scripts</span>
-    </div>
-    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
-      Cada script debe llamar a <code>callback("resultado")</code> con el texto que aparecerá en el reloj (máx. 16 caracteres).
-    </p>
-
-    <!-- SCRIPT 1 -->
-    <div style="border-bottom: 1px solid #2d2d2d; padding-bottom: 14px; margin-bottom: 14px;">
-      <div class="row-meta">
-        <div>
-          <label>Icono</label>
-          <input type="text" id="icon_1" placeholder="💚" maxlength="4">
-        </div>
-        <div>
-          <label>Etiqueta</label>
-          <input type="text" id="label_1" placeholder="BETIS" maxlength="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Código JS (Script 1)</label>
-          <div>
-            <button type="button" class="btn-preset" onclick="loadBetisPreset(1)">Plantilla Betis</button>
-            <button type="button" class="btn-test" onclick="testScript(1)">Probar JS</button>
-          </div>
-        </div>
-        <textarea id="code_1" placeholder="fetch('https://...').then(...)"></textarea>
-        <div id="res_1" class="test-result"></div>
-      </div>
-    </div>
-
-    <!-- SCRIPT 2 -->
-    <div style="border-bottom: 1px solid #2d2d2d; padding-bottom: 14px; margin-bottom: 14px;">
-      <div class="row-meta">
-        <div>
-          <label>Icono</label>
-          <input type="text" id="icon_2" placeholder="🌡" maxlength="4">
-        </div>
-        <div>
-          <label>Etiqueta</label>
-          <input type="text" id="label_2" placeholder="CASA" maxlength="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Código JS (Script 2)</label>
-          <div>
-            <button type="button" class="btn-preset" onclick="loadJsonPreset(2)">Plantilla API</button>
-            <button type="button" class="btn-test" onclick="testScript(2)">Probar JS</button>
-          </div>
-        </div>
-        <textarea id="code_2" placeholder="fetch('https://...').then(...)"></textarea>
-        <div id="res_2" class="test-result"></div>
-      </div>
-    </div>
-
-    <!-- SCRIPT 3 -->
-    <div style="border-bottom: 1px solid #2d2d2d; padding-bottom: 14px; margin-bottom: 14px;">
-      <div class="row-meta">
-        <div>
-          <label>Icono</label>
-          <input type="text" id="icon_3" placeholder="⚡" maxlength="4">
-        </div>
-        <div>
-          <label>Etiqueta</label>
-          <input type="text" id="label_3" placeholder="LUZ" maxlength="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Código JS (Script 3)</label>
-          <div>
-            <button type="button" class="btn-preset" onclick="loadJsonPreset(3)">Plantilla API</button>
-            <button type="button" class="btn-test" onclick="testScript(3)">Probar JS</button>
-          </div>
-        </div>
-        <textarea id="code_3" placeholder="fetch('https://...').then(...)"></textarea>
-        <div id="res_3" class="test-result"></div>
-      </div>
-    </div>
-
-    <!-- SCRIPT 4 -->
-    <div>
-      <div class="row-meta">
-        <div>
-          <label>Icono</label>
-          <input type="text" id="icon_4" placeholder="📊" maxlength="4">
-        </div>
-        <div>
-          <label>Etiqueta</label>
-          <input type="text" id="label_4" placeholder="CO2" maxlength="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Código JS (Script 4)</label>
-          <div>
-            <button type="button" class="btn-test" onclick="testScript(4)">Probar JS</button>
-          </div>
-        </div>
-        <textarea id="code_4" placeholder="fetch('https://...').then(...)"></textarea>
-        <div id="res_4" class="test-result"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BOTONES -->
-  <div class="actions">
-    <button type="button" class="btn-secondary" id="btn-cancel">Cancelar</button>
-    <button type="button" class="btn-primary" id="btn-save">Guardar en Pebble</button>
-  </div>
-</div>
-
 <script>
-  // Plantilla optimizada del Betis con bypass de CORS para prueba en navegador
-  var BETIS_CODE = `var apiUrl = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/244/schedule";
-if (typeof window !== "undefined" && window.location && window.location.hostname && window.location.hostname.indexOf("github.io") !== -1) {
-  apiUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl);
-}
-fetch(apiUrl)
-  .then(function(res) { return res.text(); })
-  .then(function(rawText) {
-    if (rawText.trim().startsWith("<")) { callback("BET: Error resp"); return; }
-    var data = JSON.parse(rawText);
-    var events = data.events || [];
-    if (events.length === 0) { callback("BET: Sin datos"); return; }
-    var live = events.find(function(e) { return e.competitions[0].status.type.state === 'in'; });
-    var last = events.filter(function(e) { return e.competitions[0].status.type.state === 'post'; }).pop();
-    var match = live || last || events[0];
-    var comp = match.competitions[0];
-    var h = comp.competitors[0], a = comp.competitors[1];
-    function getScore(t) {
+  // Minificador automático para no sobrepasar el límite de Pebble (4094 bytes)
+  function minifyCode(js) {
+    if (!js) return '';
+    return js
+      .replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '') // Quitar comentarios
+      .replace(/\s+/g, ' ')                               // Compactar espacios
+      .trim();
+  }
+
+  // Plantilla optimizada del Betis
+  var BETIS_CODE = `var url = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/244/schedule";
+fetch(url)
+  .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(function(d) {
+    var ev = d.events || [];
+    if (!ev.length) { callback("BET: Sin datos"); return; }
+    var now = new Date();
+    var live = ev.find(function(e) { return e.competitions && e.competitions[0] && e.competitions[0].status.type.state === 'in'; });
+    var f = ev.filter(function(e) {
+      var c = e.competitions && e.competitions[0];
+      return c && (c.status.type.state === 'post' || (new Date(e.date) <= now && c.competitors && c.competitors[0].score !== undefined));
+    });
+    f.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+    var m = live || f[0] || ev[0];
+    var c = m.competitions[0], h = c.competitors[0], a = c.competitors[1];
+    function s(t) {
       if (!t) return '';
       if (typeof t.score === 'object' && t.score !== null) return t.score.displayValue || t.score.value || '';
       return t.score !== undefined ? String(t.score) : '';
     }
-    var sh = getScore(h), sa = getScore(a);
-    var scoreStr = (sh !== '' && sa !== '') ? (sh + '-' + sa) : 'vs';
-    var habbr = (h.team.abbreviation || 'BET').substring(0, 4);
-    var aabbr = (a.team.abbreviation || 'RIV').substring(0, 4);
-    callback(habbr + ' ' + scoreStr + ' ' + aabbr);
+    var sh = s(h), sa = s(a), sc = (sh !== '' && sa !== '') ? (sh + '-' + sa) : 'vs';
+    var hb = (h.team.abbreviation || 'BET').substring(0, 4);
+    var ab = (a.team.abbreviation || 'RIV').substring(0, 4);
+    if (c.status.type.state === 'in' && c.status.displayClock) callback(hb + ' ' + sc + ' ' + ab + ' (' + c.status.displayClock + ')');
+    else callback(hb + ' ' + sc + ' ' + ab);
   })
-  .catch(function(err) { callback("BET: Error red"); });`;
+  .catch(function(e) { callback("Error: " + e.message); });`;
 
   var JSON_CODE = `fetch("https://api.tu-servidor.com/datos")
-  .then(function(res) { return res.json(); })
-  .then(function(d) {
-    callback(String(d.valor || d.value || d.result || "--"));
-  })
-  .catch(function() {
-    callback("--");
-  });`;
+  .then(function(r) { return r.json(); })
+  .then(function(d) { callback(String(d.valor || d.value || d.result || "--")); })
+  .catch(function() { callback("--"); });`;
 
   function loadBetisPreset(idx) {
     document.getElementById('icon_' + idx).value = '💚';
@@ -398,7 +73,7 @@ fetch(apiUrl)
       if (!finished) {
         finished = true;
         resDiv.style.color = '#ff4757';
-        resDiv.innerText = 'Error: Tiempo de espera agotado (Timeout)';
+        resDiv.innerText = 'Error: Tiempo de espera agotado';
       }
     }, 6000);
 
@@ -419,7 +94,18 @@ fetch(apiUrl)
     }
   }
 
-  // Cargar configuración sin límite de tamaño (usando Hash #)
+  function getQueryParam(variable, defaultVal) {
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split('=');
+      if (decodeURIComponent(pair[0]) === variable) {
+        return decodeURIComponent(pair[1]);
+      }
+    }
+    return defaultVal || null;
+  }
+
   function loadSettings() {
     var raw = null;
 
@@ -451,14 +137,14 @@ fetch(apiUrl)
           });
         }
       } catch(e) {
-        console.error("Error parseando ajustes:", e);
+        console.error("Error cargando configuración:", e);
       }
     } else {
       loadBetisPreset(1);
     }
   }
 
-  // Guardar y retornar a Pebble
+  // Guardar y retornar a Pebble con minificación automática
   document.getElementById('btn-save').addEventListener('click', function() {
     var scripts = [];
     for (var i = 1; i <= 4; i++) {
@@ -472,7 +158,7 @@ fetch(apiUrl)
         else if (icon !== '') finalLabel = icon;
 
         scripts.push({
-          code: code,
+          code: minifyCode(code), // <- Minificación automática aquí
           icon: icon,
           label: finalLabel
         });
@@ -486,17 +172,14 @@ fetch(apiUrl)
 
     localStorage.setItem('pebble_js_settings', JSON.stringify(config));
 
-    // Retorno estándar a Pebble
-    window.location.href = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(config));
+    var returnTo = getQueryParam('return_to', 'pebblejs://close#');
+    window.location.href = returnTo + encodeURIComponent(JSON.stringify(config));
   });
 
-  // Cancelar
   document.getElementById('btn-cancel').addEventListener('click', function() {
-    window.location.href = 'pebblejs://close#';
+    var returnTo = getQueryParam('return_to', 'pebblejs://close#');
+    window.location.href = returnTo;
   });
 
   loadSettings();
 </script>
-
-</body>
-</html>
