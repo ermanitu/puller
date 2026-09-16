@@ -18,8 +18,6 @@
       --input-border: #3d3d3d;
       --radius: 12px;
       --code-bg: #181818;
-      --info-bg: #1a252f;
-      --info-border: #2980b9;
     }
 
     * {
@@ -104,14 +102,14 @@
 
     textarea {
       width: 100%;
-      height: 70px;
+      height: 55px;
       padding: 10px 12px;
       background: var(--code-bg);
       border: 1px solid var(--input-border);
       border-radius: 8px;
-      color: #a4b0be;
+      color: #2ed573;
       font-family: "SFMono-Regular", Consolas, Menlo, monospace;
-      font-size: 12px;
+      font-size: 13px;
       line-height: 1.4;
       resize: vertical;
       outline: none;
@@ -122,16 +120,6 @@
       grid-template-columns: 80px 1fr;
       gap: 8px;
       margin-bottom: 8px;
-    }
-
-    .btn-preset {
-      background: #2b2b2b;
-      color: #ced6e0;
-      border: 1px solid #404040;
-      border-radius: 6px;
-      font-size: 11px;
-      padding: 3px 8px;
-      cursor: pointer;
     }
 
     .btn-test {
@@ -154,7 +142,7 @@
       display: none;
     }
 
-    /* ESTILOS DE LA SECCIÓN DE AYUDA */
+    /* SECCIÓN DE AYUDA */
     details.help-section {
       background: #151d24;
       border: 1px solid #233748;
@@ -168,9 +156,6 @@
       font-weight: 600;
       cursor: pointer;
       color: #3498db;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       outline: none;
     }
 
@@ -204,7 +189,6 @@
       border-radius: 6px;
       display: block;
       margin-bottom: 6px;
-      word-break: break-all;
     }
 
     .load-buttons {
@@ -273,21 +257,16 @@
 <div class="container">
   <header>
     <h1>Pebble JS Puller</h1>
-    <p>Scripts ultra-compactos para tu reloj Pebble</p>
+    <p>Marcadores en vivo y APIs para tu reloj</p>
   </header>
 
-  <!-- SECCIÓN DE AYUDA Y PLANTILLAS DESPLEGABLE -->
+  <!-- AYUDA DESPLEGABLE -->
   <details class="help-section" open>
-    <summary>📚 Catálogo de Ejemplos y Ayuda (Pulsa para ver)</summary>
+    <summary>📚 Catálogo de Equipos y Ejemplos (Cargar con 1 clic)</summary>
     
-    <div style="font-size: 12px; color: #bdc3c7; margin-top: 8px;">
-      Puedes pulsar en <strong>[Slot 1..4]</strong> en cualquiera de los ejemplos siguientes para cargarlo directamente en tu configuración:
-    </div>
-
-    <!-- EJEMPLO: BETIS -->
     <div class="help-item">
       <div class="help-item-header">
-        <span class="help-title">⚽ Real Betis (LaLiga / Europa)</span>
+        <span class="help-title">⚽ Real Betis</span>
         <div class="load-buttons">
           Cargar en:
           <button type="button" class="btn-load" onclick="setPreset(1, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 1</button>
@@ -299,10 +278,23 @@
       <code class="help-code">fetchEspn(244, callback);</code>
     </div>
 
-    <!-- EJEMPLO: REAL MADRID -->
     <div class="help-item">
       <div class="help-item-header">
-        <span class="help-title">⚽ Real Madrid (LaLiga / Champions)</span>
+        <span class="help-title">⚽ Atlético de Madrid</span>
+        <div class="load-buttons">
+          Cargar en:
+          <button type="button" class="btn-load" onclick="setPreset(1, '🔴', 'ATM', 'fetchEspn(1068, callback);')">Slot 1</button>
+          <button type="button" class="btn-load" onclick="setPreset(2, '🔴', 'ATM', 'fetchEspn(1068, callback);')">Slot 2</button>
+          <button type="button" class="btn-load" onclick="setPreset(3, '🔴', 'ATM', 'fetchEspn(1068, callback);')">Slot 3</button>
+          <button type="button" class="btn-load" onclick="setPreset(4, '🔴', 'ATM', 'fetchEspn(1068, callback);')">Slot 4</button>
+        </div>
+      </div>
+      <code class="help-code">fetchEspn(1068, callback);</code>
+    </div>
+
+    <div class="help-item">
+      <div class="help-item-header">
+        <span class="help-title">⚽ Real Madrid</span>
         <div class="load-buttons">
           Cargar en:
           <button type="button" class="btn-load" onclick="setPreset(1, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 1</button>
@@ -314,7 +306,6 @@
       <code class="help-code">fetchEspn(86, callback);</code>
     </div>
 
-    <!-- EJEMPLO: FC BARCELONA -->
     <div class="help-item">
       <div class="help-item-header">
         <span class="help-title">⚽ FC Barcelona</span>
@@ -327,51 +318,6 @@
         </div>
       </div>
       <code class="help-code">fetchEspn(83, callback);</code>
-    </div>
-
-    <!-- EJEMPLO: BITCOIN -->
-    <div class="help-item">
-      <div class="help-item-header">
-        <span class="help-title">💰 Precio Bitcoin (USD)</span>
-        <div class="load-buttons">
-          Cargar en:
-          <button type="button" class="btn-load" onclick="setPreset(1, '💰', 'BTC', 'fetchJson(\'https://api.coincap.io/v2/assets/bitcoin\', \'data\', function(d){ callback(\'$\' + Math.round(d.priceUsd)); });')">Slot 1</button>
-          <button type="button" class="btn-load" onclick="setPreset(2, '💰', 'BTC', 'fetchJson(\'https://api.coincap.io/v2/assets/bitcoin\', \'data\', function(d){ callback(\'$\' + Math.round(d.priceUsd)); });')">Slot 2</button>
-          <button type="button" class="btn-load" onclick="setPreset(3, '💰', 'BTC', 'fetchJson(\'https://api.coincap.io/v2/assets/bitcoin\', \'data\', function(d){ callback(\'$\' + Math.round(d.priceUsd)); });')">Slot 3</button>
-          <button type="button" class="btn-load" onclick="setPreset(4, '💰', 'BTC', 'fetchJson(\'https://api.coincap.io/v2/assets/bitcoin\', \'data\', function(d){ callback(\'$\' + Math.round(d.priceUsd)); });')">Slot 4</button>
-        </div>
-      </div>
-      <code class="help-code">fetchJson('https://api.coincap.io/v2/assets/bitcoin', 'data', function(d){ callback('$' + Math.round(d.priceUsd)); });</code>
-    </div>
-
-    <!-- EJEMPLO: SENSOR / DOMÓTICA -->
-    <div class="help-item">
-      <div class="help-item-header">
-        <span class="help-title">🏠 Sensor / Home Assistant / API</span>
-        <div class="load-buttons">
-          Cargar en:
-          <button type="button" class="btn-load" onclick="setPreset(1, '🏠', 'CASA', 'fetchJson(\'https://tu-api.com/temp\', \'valor\', callback);')">Slot 1</button>
-          <button type="button" class="btn-load" onclick="setPreset(2, '🏠', 'CASA', 'fetchJson(\'https://tu-api.com/temp\', \'valor\', callback);')">Slot 2</button>
-          <button type="button" class="btn-load" onclick="setPreset(3, '🏠', 'CASA', 'fetchJson(\'https://tu-api.com/temp\', \'valor\', callback);')">Slot 3</button>
-          <button type="button" class="btn-load" onclick="setPreset(4, '🏠', 'CASA', 'fetchJson(\'https://tu-api.com/temp\', \'valor\', callback);')">Slot 4</button>
-        </div>
-      </div>
-      <code class="help-code">fetchJson('https://tu-servidor.com/sensor', 'valor', callback);</code>
-    </div>
-
-    <!-- EJEMPLO: CUENTA ATRÁS -->
-    <div class="help-item">
-      <div class="help-item-header">
-        <span class="help-title">⏳ Cuenta atrás (Días fin de año)</span>
-        <div class="load-buttons">
-          Cargar en:
-          <button type="button" class="btn-load" onclick="setPreset(1, '⏳', 'FIN', 'var d=Math.ceil((new Date(\'2026-12-31\')-new Date())/86400000); callback(d+\' d rest\');')">Slot 1</button>
-          <button type="button" class="btn-load" onclick="setPreset(2, '⏳', 'FIN', 'var d=Math.ceil((new Date(\'2026-12-31\')-new Date())/86400000); callback(d+\' d rest\');')">Slot 2</button>
-          <button type="button" class="btn-load" onclick="setPreset(3, '⏳', 'FIN', 'var d=Math.ceil((new Date(\'2026-12-31\')-new Date())/86400000); callback(d+\' d rest\');')">Slot 3</button>
-          <button type="button" class="btn-load" onclick="setPreset(4, '⏳', 'FIN', 'var d=Math.ceil((new Date(\'2026-12-31\')-new Date())/86400000); callback(d+\' d rest\');')">Slot 4</button>
-        </div>
-      </div>
-      <code class="help-code">var d=Math.ceil((new Date('2026-12-31')-new Date())/86400000); callback(d+' d rest');</code>
     </div>
   </details>
 
@@ -386,15 +332,12 @@
     </div>
   </div>
 
-  <!-- SECCIÓN SCRIPTS -->
+  <!-- SLOTS 1..4 -->
   <div class="card">
     <div class="card-title">
       <span>⚡ Scripts para Display Inferior</span>
       <span class="badge">4 Slots</span>
     </div>
-    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
-      Escribe tu código o cárgalo desde los ejemplos de arriba. Pulsa <strong>Probar JS</strong> para verificar la salida.
-    </p>
 
     <!-- SCRIPT 1 -->
     <div style="border-bottom: 1px solid #2d2d2d; padding-bottom: 14px; margin-bottom: 14px;">
@@ -423,11 +366,11 @@
       <div class="row-meta">
         <div>
           <label>Icono</label>
-          <input type="text" id="icon_2" placeholder="👑" maxlength="4">
+          <input type="text" id="icon_2" placeholder="🔴" maxlength="4">
         </div>
         <div>
           <label>Etiqueta</label>
-          <input type="text" id="label_2" placeholder="RMA" maxlength="6">
+          <input type="text" id="label_2" placeholder="ATM" maxlength="6">
         </div>
       </div>
       <div class="form-group">
@@ -435,7 +378,7 @@
           <label style="margin: 0;">Script 2</label>
           <button type="button" class="btn-test" onclick="testScript(2)">Probar JS</button>
         </div>
-        <textarea id="code_2" placeholder="fetchEspn(86, callback);"></textarea>
+        <textarea id="code_2" placeholder="fetchEspn(1068, callback);"></textarea>
         <div id="res_2" class="test-result"></div>
       </div>
     </div>
@@ -445,11 +388,11 @@
       <div class="row-meta">
         <div>
           <label>Icono</label>
-          <input type="text" id="icon_3" placeholder="💰" maxlength="4">
+          <input type="text" id="icon_3" placeholder="👑" maxlength="4">
         </div>
         <div>
           <label>Etiqueta</label>
-          <input type="text" id="label_3" placeholder="BTC" maxlength="6">
+          <input type="text" id="label_3" placeholder="RMA" maxlength="6">
         </div>
       </div>
       <div class="form-group">
@@ -457,7 +400,7 @@
           <label style="margin: 0;">Script 3</label>
           <button type="button" class="btn-test" onclick="testScript(3)">Probar JS</button>
         </div>
-        <textarea id="code_3" placeholder="fetchJson('...', '...', callback);"></textarea>
+        <textarea id="code_3" placeholder="fetchEspn(86, callback);"></textarea>
         <div id="res_3" class="test-result"></div>
       </div>
     </div>
@@ -467,11 +410,11 @@
       <div class="row-meta">
         <div>
           <label>Icono</label>
-          <input type="text" id="icon_4" placeholder="🏠" maxlength="4">
+          <input type="text" id="icon_4" placeholder="🔵" maxlength="4">
         </div>
         <div>
           <label>Etiqueta</label>
-          <input type="text" id="label_4" placeholder="CASA" maxlength="6">
+          <input type="text" id="label_4" placeholder="BAR" maxlength="6">
         </div>
       </div>
       <div class="form-group">
@@ -479,7 +422,7 @@
           <label style="margin: 0;">Script 4</label>
           <button type="button" class="btn-test" onclick="testScript(4)">Probar JS</button>
         </div>
-        <textarea id="code_4" placeholder="fetchJson('...', '...', callback);"></textarea>
+        <textarea id="code_4" placeholder="fetchEspn(83, callback);"></textarea>
         <div id="res_4" class="test-result"></div>
       </div>
     </div>
@@ -493,35 +436,64 @@
 </div>
 
 <script>
-  // Helper integrado para pruebas en el navegador
+  // Helper integrado para las pruebas en el navegador
   function fetchEspn(teamId, callback) {
-    var url = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/" + teamId + "/schedule";
-    fetch(url)
+    var idStr = String(teamId);
+    var liveUrl = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard";
+
+    fetch(liveUrl)
       .then(function(r) { return r.json(); })
-      .then(function(d) {
-        var ev = d.events || [];
-        if (!ev.length) { callback("--"); return; }
-        var now = new Date();
-        var live = ev.find(function(e) { return e.competitions && e.competitions[0] && e.competitions[0].status.type.state === 'in'; });
-        var f = ev.filter(function(e) {
-          var c = e.competitions && e.competitions[0];
-          return c && (c.status.type.state === 'post' || (new Date(e.date) <= now && c.competitors && c.competitors[0].score !== undefined));
+      .then(function(liveData) {
+        var todayEvents = liveData.events || [];
+        var todayMatch = todayEvents.find(function(e) {
+          var comps = (e.competitions && e.competitions[0] && e.competitions[0].competitors) || [];
+          return comps.some(function(c) {
+            return c.id === idStr || (c.team && (c.team.id === idStr || c.team.abbreviation === idStr));
+          });
         });
-        f.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
-        var m = live || f[0] || ev[0];
-        var c = m.competitions[0], h = c.competitors[0], a = c.competitors[1];
-        function s(t) {
-          if (!t) return '';
-          if (typeof t.score === 'object' && t.score !== null) return t.score.displayValue || t.score.value || '';
-          return t.score !== undefined ? String(t.score) : '';
+
+        if (todayMatch) {
+          var comp = todayMatch.competitions[0];
+          var h = comp.competitors[0], a = comp.competitors[1];
+          function s(t) {
+            if (!t) return '0';
+            if (typeof t.score === 'object' && t.score !== null) return t.score.displayValue || t.score.value || '0';
+            return t.score !== undefined ? String(t.score) : '0';
+          }
+          var sh = s(h), sa = s(a);
+          var hb = (h.team.abbreviation || 'LOC').substring(0, 4);
+          var ab = (a.team.abbreviation || 'VIS').substring(0, 4);
+          var clock = (comp.status && comp.status.displayClock) ? comp.status.displayClock : (comp.status && comp.status.type && comp.status.type.shortDetail ? comp.status.type.shortDetail : 'LIVE');
+          callback(hb + ' ' + sh + '-' + sa + ' ' + ab + ' (' + clock + ')');
+          return;
         }
-        var sh = s(h), sa = s(a), sc = (sh !== '' && sa !== '') ? (sh + '-' + sa) : 'vs';
-        var hb = (h.team.abbreviation || 'LOC').substring(0, 4);
-        var ab = (a.team.abbreviation || 'VIS').substring(0, 4);
-        if (c.status.type.state === 'in' && c.status.displayClock) callback(hb + ' ' + sc + ' ' + ab + ' (' + c.status.displayClock + ')');
-        else callback(hb + ' ' + sc + ' ' + ab);
+
+        var schedUrl = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/" + idStr + "/schedule";
+        fetch(schedUrl)
+          .then(function(r) { return r.json(); })
+          .then(function(schedData) {
+            var events = schedData.events || [];
+            var finished = events.filter(function(e) {
+              var c = e.competitions && e.competitions[0];
+              return c && (c.status.type.state === 'post' || c.status.type.completed);
+            });
+            finished.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+            var target = finished[0] || events[0];
+            var comp = target.competitions[0];
+            var h = comp.competitors[0], a = comp.competitors[1];
+            function s(t) {
+              if (!t) return '0';
+              if (typeof t.score === 'object' && t.score !== null) return t.score.displayValue || t.score.value || '0';
+              return t.score !== undefined ? String(t.score) : '0';
+            }
+            var sh = s(h), sa = s(a);
+            var hb = (h.team.abbreviation || 'LOC').substring(0, 4);
+            var ab = (a.team.abbreviation || 'VIS').substring(0, 4);
+            callback(hb + ' ' + sh + '-' + sa + ' ' + ab);
+          })
+          .catch(function() { callback("--"); });
       })
-      .catch(function(e) { callback("Error"); });
+      .catch(function(err) { callback("Error: " + err.message); });
   }
 
   function fetchJson(url, key, callback) {
@@ -529,9 +501,7 @@
       .then(function(r) { return r.json(); })
       .then(function(d) {
         var val = key ? d[key] : (d.value || d.val || d.result || d);
-        if (typeof callback === 'function') {
-          callback(val);
-        }
+        callback(String(val || "--").substring(0, 16));
       })
       .catch(function() { callback("--"); });
   }
@@ -612,7 +582,9 @@
       } catch(e) {}
     } else {
       setPreset(1, '💚', 'BET', 'fetchEspn(244, callback);');
-      setPreset(2, '👑', 'RMA', 'fetchEspn(86, callback);');
+      setPreset(2, '🔴', 'ATM', 'fetchEspn(1068, callback);');
+      setPreset(3, '👑', 'RMA', 'fetchEspn(86, callback);');
+      setPreset(4, '🔵', 'BAR', 'fetchEspn(83, callback);');
     }
   }
 
