@@ -3,629 +3,358 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Configuración Pebble JS Puller</title>
+  <title>Configuración Pebble Puller</title>
   <style>
     :root {
-      --bg-color: #121212;
-      --card-bg: #1e1e1e;
-      --card-border: #2d2d2d;
-      --text-main: #ffffff;
-      --text-muted: #9e9e9e;
-      --accent: #2ed573;
-      --accent-hover: #26af5f;
-      --btn-secondary: #333333;
-      --input-bg: #272727;
-      --input-border: #3d3d3d;
-      --radius: 12px;
-      --code-bg: #181818;
+      --primary: #ff4757;
+      --primary-dark: #e84118;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #2f3542;
+      --border: #dfe4ea;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-
     body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
       padding: 16px;
-      line-height: 1.5;
+      line-height: 1.4;
     }
-
-    .container {
-      max-width: 580px;
-      margin: 0 auto;
-    }
-
-    header {
+    .header {
       text-align: center;
       margin-bottom: 20px;
     }
-
-    header h1 {
+    .header h1 {
       font-size: 20px;
       font-weight: 700;
+      color: var(--text);
     }
-
-    header p {
+    .header p {
       font-size: 13px;
-      color: var(--text-muted);
+      color: #747d8c;
     }
-
     .card {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       padding: 16px;
       margin-bottom: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
-
     .card-title {
       font-size: 15px;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 8px;
     }
-
-    .form-group {
-      margin-bottom: 10px;
-    }
-
     label {
       display: block;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 9px 12px;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 8px;
-      color: #fff;
       font-size: 13px;
-      outline: none;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #57606f;
     }
-
-    input:focus, textarea:focus {
-      border-color: var(--accent);
-    }
-
-    textarea {
+    input[type="text"], textarea {
       width: 100%;
-      height: 55px;
       padding: 10px 12px;
-      background: var(--code-bg);
-      border: 1px solid var(--input-border);
+      border: 1px solid var(--border);
       border-radius: 8px;
-      color: #2ed573;
-      font-family: "SFMono-Regular", Consolas, Menlo, monospace;
-      font-size: 13px;
-      line-height: 1.4;
-      resize: vertical;
-      outline: none;
-    }
-
-    .row-meta {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .btn-test {
-      background: #3742fa;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 11px;
-      padding: 4px 10px;
-      cursor: pointer;
-      font-weight: 600;
-      float: right;
-    }
-
-    .test-result {
-      font-size: 12px;
-      color: #2ed573;
-      margin-top: 4px;
-      font-family: monospace;
-      display: none;
-    }
-
-    /* SECCIÓN DE AYUDA */
-    details.help-section {
-      background: #151d24;
-      border: 1px solid #233748;
-      border-radius: var(--radius);
-      padding: 12px 16px;
-      margin-bottom: 16px;
-    }
-
-    details summary {
       font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      color: #3498db;
-      outline: none;
+      color: var(--text);
+      background: #fafafa;
+      margin-bottom: 12px;
+      font-family: inherit;
     }
-
-    .help-item {
-      background: #0f151b;
-      border: 1px solid #1c2b38;
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #fff;
+    }
+    textarea {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+      min-height: 90px;
+      resize: vertical;
+    }
+    
+    /* PALETA DE ICONOS NATIVOS PEBBLE */
+    .icon-palette {
+      background: #f1f2f6;
       border-radius: 8px;
       padding: 10px;
-      margin-top: 10px;
+      margin-bottom: 14px;
     }
-
-    .help-item-header {
+    .icon-palette-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #747d8c;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .icon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .icon-chip {
+      background: #fff;
+      border: 1px solid #ced6e0;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+    .icon-chip:hover, .icon-chip:active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:active {
+      background: var(--primary-dark);
+    }
+    .btn-secondary {
+      background: #e4e7eb;
+      color: #2f3542;
+      font-size: 13px;
+      padding: 8px 12px;
+      width: auto;
+      margin-top: -6px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+    }
+    .script-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 10px;
     }
-
-    .help-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #ecf0f1;
-    }
-
-    .help-code {
-      font-family: monospace;
-      font-size: 11px;
-      color: #1abc9c;
-      background: #090c0f;
-      padding: 6px 8px;
-      border-radius: 6px;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .load-buttons {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .btn-load {
-      background: #243342;
-      color: #fff;
-      border: 1px solid #34495e;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 10px;
-      cursor: pointer;
-    }
-    .btn-load:active {
-      background: var(--accent);
-      color: #121212;
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      margin: 24px 0 40px 0;
-    }
-
-    button.btn-primary {
-      flex: 2;
-      background: var(--accent);
-      color: #121212;
-      border: none;
-      border-radius: var(--radius);
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    button.btn-secondary {
-      flex: 1;
-      background: var(--btn-secondary);
-      color: var(--text-muted);
-      border: none;
-      border-radius: var(--radius);
-      padding: 14px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .badge {
-      background: rgba(46, 213, 115, 0.15);
-      color: var(--accent);
+    .script-badge {
+      background: #ff6b81;
+      color: white;
       font-size: 11px;
       padding: 2px 8px;
       border-radius: 12px;
+      font-weight: bold;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #a4b0be;
+      margin-top: 20px;
+      margin-bottom: 30px;
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <h1>Pebble JS Puller</h1>
-    <p>Marcadores en vivo y APIs para tu reloj</p>
-  </header>
+  <div class="header">
+    <h1>Pebble Puller Config</h1>
+    <p>Configura tus APIs, Gluroo y Scripts</p>
+  </div>
 
-  <!-- AYUDA DESPLEGABLE -->
-  <details class="help-section" open>
-    <summary>📚 Catálogo de Equipos y Ejemplos (Cargar con 1 clic)</summary>
+  <!-- SELECTOR DE ICONOS COMPATIBLES -->
+  <div class="card">
+    <div class="card-title">💡 Iconos Soportados por Pebble</div>
+    <p style="font-size: 12px; color: #747d8c; margin-bottom: 10px;">
+      Haz clic en un icono para insertarlo en la casilla seleccionada:
+    </p>
+    <div class="icon-palette">
+      <span class="icon-palette-title">Corazones y Amor:</span>
+      <div class="icon-grid">
+        <span class="icon-chip" onclick="insertSymbol('♥')">♥ Betis / Salud</span>
+        <span class="icon-chip" onclick="insertSymbol('♡')">♡ Corazón hueco</span>
+      </div>
+
+      <span class="icon-palette-title" style="margin-top:8px;">Deportes y Estado:</span>
+      <div class="icon-grid">
+        <span class="icon-chip" onclick="insertSymbol('★')">★ Estrella</span>
+        <span class="icon-chip" onclick="insertSymbol('⚡')">⚡ Rayo / Batería</span>
+        <span class="icon-chip" onclick="insertSymbol('▲')">▲ Subida</span>
+        <span class="icon-chip" onclick="insertSymbol('▼')">▼ Bajada</span>
+        <span class="icon-chip" onclick="insertSymbol('●')">● Punto</span>
+        <span class="icon-chip" onclick="insertSymbol('◆')">◆ Rombo</span>
+      </div>
+
+      <span class="icon-palette-title" style="margin-top:8px;">Tiempo y General:</span>
+      <div class="icon-grid">
+        <span class="icon-chip" onclick="insertSymbol('℃')">℃ Grados</span>
+        <span class="icon-chip" onclick="insertSymbol('☀')">☀ Sol</span>
+        <span class="icon-chip" onclick="insertSymbol('☁')">☁ Nube</span>
+        <span class="icon-chip" onclick="insertSymbol('☂')">☂ Lluvia</span>
+        <span class="icon-chip" onclick="insertSymbol('✔')">✔ Check</span>
+        <span class="icon-chip" onclick="insertSymbol('✈')">✈ Vuelo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIGURACIÓN DE GLUROO / NIGHTSCOUT -->
+  <div class="card">
+    <div class="card-title">🩸 Gluroo / Nightscout</div>
+    <label for="gluroo_token">Token de Gluroo (opcional):</label>
+    <input type="text" id="gluroo_token" placeholder="Ej: gluroo-token-12345">
+  </div>
+
+  <!-- SCRIPTS PERSONALIZADOS (1 a 4) -->
+  <div class="card">
+    <div class="card-title">⚙️ Scripts & URLs Personalizadas</div>
     
-    <div class="help-item">
-      <div class="help-item-header">
-        <span class="help-title">⚽ Real Betis</span>
-        <div class="load-buttons">
-          Cargar en:
-          <button type="button" class="btn-load" onclick="setPreset(1, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 1</button>
-          <button type="button" class="btn-load" onclick="setPreset(2, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 2</button>
-          <button type="button" class="btn-load" onclick="setPreset(3, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 3</button>
-          <button type="button" class="btn-load" onclick="setPreset(4, '💚', 'BET', 'fetchEspn(244, callback);')">Slot 4</button>
-        </div>
+    <!-- Script 1 -->
+    <div class="script-block" style="border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 12px;">
+      <div class="script-header">
+        <label>Script 1</label>
+        <span class="script-badge">U1</span>
       </div>
-      <code class="help-code">fetchEspn(244, callback);</code>
+      <input type="text" id="label_0" placeholder="Etiqueta (ej: ♥ BET)">
+      <textarea id="code_0" placeholder="// Código JS. Llama a callback('resultado')"></textarea>
     </div>
 
-    <div class="help-item">
-      <div class="help-item-header">
-        <span class="help-title">⚽ Atlético de Madrid</span>
-        <div class="load-buttons">
-          Cargar en:
-          <button type="button" class="btn-load" onclick="setPreset(1, '🔴', 'ATM', 'fetchEspn(1068, callback);')">Slot 1</button>
-          <button type="button" class="btn-load" onclick="setPreset(2, '🔴', 'ATM', 'fetchEspn(1068, callback);')">Slot 2</button>
-          <button type="button" class="btn-load" onclick="setPreset(3, '🔴', 'ATM', 'fetchEspn(1068, callback);')">Slot 3</button>
-          <button type="button" class="btn-load" onclick="setPreset(4, '🔴', 'ATM', 'fetchEspn(1068, callback);')">Slot 4</button>
-        </div>
+    <!-- Script 2 -->
+    <div class="script-block" style="border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 12px;">
+      <div class="script-header">
+        <label>Script 2</label>
+        <span class="script-badge">U2</span>
       </div>
-      <code class="help-code">fetchEspn(1068, callback);</code>
+      <input type="text" id="label_1" placeholder="Etiqueta (ej: ⚡ AAPL)">
+      <textarea id="code_1" placeholder="// Código JS"></textarea>
     </div>
 
-    <div class="help-item">
-      <div class="help-item-header">
-        <span class="help-title">⚽ Real Madrid</span>
-        <div class="load-buttons">
-          Cargar en:
-          <button type="button" class="btn-load" onclick="setPreset(1, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 1</button>
-          <button type="button" class="btn-load" onclick="setPreset(2, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 2</button>
-          <button type="button" class="btn-load" onclick="setPreset(3, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 3</button>
-          <button type="button" class="btn-load" onclick="setPreset(4, '👑', 'RMA', 'fetchEspn(86, callback);')">Slot 4</button>
-        </div>
+    <!-- Script 3 -->
+    <div class="script-block" style="border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 12px;">
+      <div class="script-header">
+        <label>Script 3</label>
+        <span class="script-badge">U3</span>
       </div>
-      <code class="help-code">fetchEspn(86, callback);</code>
+      <input type="text" id="label_2" placeholder="Etiqueta (ej: ☁ ATM)">
+      <textarea id="code_2" placeholder="// Código JS"></textarea>
     </div>
 
-    <div class="help-item">
-      <div class="help-item-header">
-        <span class="help-title">⚽ FC Barcelona</span>
-        <div class="load-buttons">
-          Cargar en:
-          <button type="button" class="btn-load" onclick="setPreset(1, '🔵', 'BAR', 'fetchEspn(83, callback);')">Slot 1</button>
-          <button type="button" class="btn-load" onclick="setPreset(2, '🔵', 'BAR', 'fetchEspn(83, callback);')">Slot 2</button>
-          <button type="button" class="btn-load" onclick="setPreset(3, '🔵', 'BAR', 'fetchEspn(83, callback);')">Slot 3</button>
-          <button type="button" class="btn-load" onclick="setPreset(4, '🔵', 'BAR', 'fetchEspn(83, callback);')">Slot 4</button>
-        </div>
+    <!-- Script 4 -->
+    <div class="script-block">
+      <div class="script-header">
+        <label>Script 4</label>
+        <span class="script-badge">U4</span>
       </div>
-      <code class="help-code">fetchEspn(83, callback);</code>
-    </div>
-  </details>
-
-  <!-- GLUROO TOKEN -->
-  <div class="card">
-    <div class="card-title">
-      <span>🩸 Gluroo (Glucosa)</span>
-    </div>
-    <div class="form-group">
-      <label>Token Gluroo</label>
-      <input type="text" id="gluroo_token" placeholder="Token de Gluroo (opcional)">
+      <input type="text" id="label_3" placeholder="Etiqueta (ej: ★ NOTA)">
+      <textarea id="code_3" placeholder="// Código JS"></textarea>
     </div>
   </div>
 
-  <!-- SLOTS 1..4 -->
-  <div class="card">
-    <div class="card-title">
-      <span>⚡ Scripts para Display Inferior</span>
-      <span class="badge">4 Slots</span>
-    </div>
+  <!-- BOTÓN GUARDAR -->
+  <button type="button" class="btn btn-primary" onclick="saveAndClose()">GUARDAR EN EL RELOJ</button>
 
-    <!-- SCRIPT 1 -->
-    <div style="border-bottom: 1px solid #2d2d2d; padding-bottom: 14px; margin-bottom: 14px;">
-      <div class="row-meta">
-        <div>
-          <label>Icono</label>
-          <input type="text" id="icon_1" placeholder="💚" maxlength="4">
-        </div>
-        <div>
-          <label>Etiqueta</label>
-          <input type="text" id="label_1" placeholder="BET" maxlength="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Script 1</label>
-          <button type="button" class="btn-test" onclick="testScript(1)">Probar JS</button>
-        </div>
-        <textarea id="code_1" placeholder="fetchEspn(244, callback);"></textarea>
-        <div id="res_1" class="test-result"></div>
-      </div>
-    </div>
-
-    <!-- SCRIPT 2 -->
-    <div style="border-bottom: 1px solid #2d2d2d; padding-bottom: 14px; margin-bottom: 14px;">
-      <div class="row-meta">
-        <div>
-          <label>Icono</label>
-          <input type="text" id="icon_2" placeholder="🔴" maxlength="4">
-        </div>
-        <div>
-          <label>Etiqueta</label>
-          <input type="text" id="label_2" placeholder="ATM" maxlength="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Script 2</label>
-          <button type="button" class="btn-test" onclick="testScript(2)">Probar JS</button>
-        </div>
-        <textarea id="code_2" placeholder="fetchEspn(1068, callback);"></textarea>
-        <div id="res_2" class="test-result"></div>
-      </div>
-    </div>
-
-    <!-- SCRIPT 3 -->
-    <div style="border-bottom: 1px solid #2d2d2d; padding-bottom: 14px; margin-bottom: 14px;">
-      <div class="row-meta">
-        <div>
-          <label>Icono</label>
-          <input type="text" id="icon_3" placeholder="👑" maxlength="4">
-        </div>
-        <div>
-          <label>Etiqueta</label>
-          <input type="text" id="label_3" placeholder="RMA" maxlength="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Script 3</label>
-          <button type="button" class="btn-test" onclick="testScript(3)">Probar JS</button>
-        </div>
-        <textarea id="code_3" placeholder="fetchEspn(86, callback);"></textarea>
-        <div id="res_3" class="test-result"></div>
-      </div>
-    </div>
-
-    <!-- SCRIPT 4 -->
-    <div>
-      <div class="row-meta">
-        <div>
-          <label>Icono</label>
-          <input type="text" id="icon_4" placeholder="🔵" maxlength="4">
-        </div>
-        <div>
-          <label>Etiqueta</label>
-          <input type="text" id="label_4" placeholder="BAR" maxlength="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-          <label style="margin: 0;">Script 4</label>
-          <button type="button" class="btn-test" onclick="testScript(4)">Probar JS</button>
-        </div>
-        <textarea id="code_4" placeholder="fetchEspn(83, callback);"></textarea>
-        <div id="res_4" class="test-result"></div>
-      </div>
-    </div>
+  <div class="footer">
+    Pebble Puller v2.0 • Compatible con Pebble Time / Round / 2
   </div>
 
-  <!-- BOTONES -->
-  <div class="actions">
-    <button type="button" class="btn-secondary" id="btn-cancel">Cancelar</button>
-    <button type="button" class="btn-primary" id="btn-save">Guardar en Pebble</button>
-  </div>
-</div>
+  <script>
+    var lastFocusedInput = null;
 
-<script>
-  // Helper integrado para las pruebas en el navegador
-  function fetchEspn(teamId, callback) {
-    var idStr = String(teamId);
-    var liveUrl = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard";
-
-    fetch(liveUrl)
-      .then(function(r) { return r.json(); })
-      .then(function(liveData) {
-        var todayEvents = liveData.events || [];
-        var todayMatch = todayEvents.find(function(e) {
-          var comps = (e.competitions && e.competitions[0] && e.competitions[0].competitors) || [];
-          return comps.some(function(c) {
-            return c.id === idStr || (c.team && (c.team.id === idStr || c.team.abbreviation === idStr));
-          });
-        });
-
-        if (todayMatch) {
-          var comp = todayMatch.competitions[0];
-          var h = comp.competitors[0], a = comp.competitors[1];
-          function s(t) {
-            if (!t) return '0';
-            if (typeof t.score === 'object' && t.score !== null) return t.score.displayValue || t.score.value || '0';
-            return t.score !== undefined ? String(t.score) : '0';
-          }
-          var sh = s(h), sa = s(a);
-          var hb = (h.team.abbreviation || 'LOC').substring(0, 4);
-          var ab = (a.team.abbreviation || 'VIS').substring(0, 4);
-          var clock = (comp.status && comp.status.displayClock) ? comp.status.displayClock : (comp.status && comp.status.type && comp.status.type.shortDetail ? comp.status.type.shortDetail : 'LIVE');
-          callback(hb + ' ' + sh + '-' + sa + ' ' + ab + ' (' + clock + ')');
-          return;
-        }
-
-        var schedUrl = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/" + idStr + "/schedule";
-        fetch(schedUrl)
-          .then(function(r) { return r.json(); })
-          .then(function(schedData) {
-            var events = schedData.events || [];
-            var finished = events.filter(function(e) {
-              var c = e.competitions && e.competitions[0];
-              return c && (c.status.type.state === 'post' || c.status.type.completed);
-            });
-            finished.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
-            var target = finished[0] || events[0];
-            var comp = target.competitions[0];
-            var h = comp.competitors[0], a = comp.competitors[1];
-            function s(t) {
-              if (!t) return '0';
-              if (typeof t.score === 'object' && t.score !== null) return t.score.displayValue || t.score.value || '0';
-              return t.score !== undefined ? String(t.score) : '0';
-            }
-            var sh = s(h), sa = s(a);
-            var hb = (h.team.abbreviation || 'LOC').substring(0, 4);
-            var ab = (a.team.abbreviation || 'VIS').substring(0, 4);
-            callback(hb + ' ' + sh + '-' + sa + ' ' + ab);
-          })
-          .catch(function() { callback("--"); });
-      })
-      .catch(function(err) { callback("Error: " + err.message); });
-  }
-
-  function fetchJson(url, key, callback) {
-    fetch(url)
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        var val = key ? d[key] : (d.value || d.val || d.result || d);
-        callback(String(val || "--").substring(0, 16));
-      })
-      .catch(function() { callback("--"); });
-  }
-
-  function setPreset(idx, icon, label, code) {
-    document.getElementById('icon_' + idx).value = icon;
-    document.getElementById('label_' + idx).value = label;
-    document.getElementById('code_' + idx).value = code;
-  }
-
-  function testScript(idx) {
-    var code = document.getElementById('code_' + idx).value.trim();
-    var resDiv = document.getElementById('res_' + idx);
-    resDiv.style.display = 'block';
-    resDiv.style.color = '#3742fa';
-    resDiv.innerText = 'Ejecutando...';
-
-    if (!code) {
-      resDiv.style.color = '#ff4757';
-      resDiv.innerText = 'Código vacío';
-      return;
-    }
-
-    var finished = false;
-    var timeoutId = setTimeout(function() {
-      if (!finished) {
-        finished = true;
-        resDiv.style.color = '#ff4757';
-        resDiv.innerText = 'Error: Timeout';
+    // Registrar el último input con foco para insertar el símbolo ahí
+    document.addEventListener('focusin', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        lastFocusedInput = e.target;
       }
-    }, 6000);
+    });
 
-    try {
-      var runner = new Function('callback', 'fetchEspn', 'fetchJson', code);
-      runner(function(result) {
-        if (finished) return;
-        finished = true;
-        clearTimeout(timeoutId);
-        resDiv.style.color = '#2ed573';
-        resDiv.innerText = 'Salida: "' + String(result) + '"';
-      }, fetchEspn, fetchJson);
-    } catch(err) {
-      finished = true;
-      clearTimeout(timeoutId);
-      resDiv.style.color = '#ff4757';
-      resDiv.innerText = 'Error: ' + err.message;
-    }
-  }
-
-  function getQueryParam(variable, defaultVal) {
-    var query = window.location.search.substring(1);
-    var vars = query.split('&');
-    for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split('=');
-      if (decodeURIComponent(pair[0]) === variable) {
-        return decodeURIComponent(pair[1]);
+    function insertSymbol(sym) {
+      if (lastFocusedInput) {
+        var start = lastFocusedInput.selectionStart || 0;
+        var end = lastFocusedInput.selectionEnd || 0;
+        var val = lastFocusedInput.value;
+        lastFocusedInput.value = val.substring(0, start) + sym + val.substring(end);
+        lastFocusedInput.focus();
+        lastFocusedInput.setSelectionRange(start + sym.length, start + sym.length);
+      } else {
+        // Si no hay input enfocado, inserta en la etiqueta 1
+        var def = document.getElementById('label_0');
+        def.value = sym + ' ' + def.value;
+        def.focus();
       }
     }
-    return defaultVal || null;
-  }
 
-  function loadSettings() {
-    var raw = localStorage.getItem('pebble_js_settings');
-    if (raw) {
+    // Cargar datos previos desde URL hash o localStorage
+    function loadConfig() {
       try {
-        var s = JSON.parse(raw);
-        if (s.gluroo_token) document.getElementById('gluroo_token').value = s.gluroo_token;
-        if (s.scripts && Array.isArray(s.scripts)) {
-          s.scripts.forEach(function(item, index) {
-            var i = index + 1;
-            if (i <= 4) {
-              document.getElementById('icon_' + i).value = item.icon || '';
-              document.getElementById('label_' + i).value = item.label || '';
-              document.getElementById('code_' + i).value = item.code || '';
-            }
-          });
+        var hash = window.location.hash.substring(1);
+        var config = {};
+        if (hash) {
+          config = JSON.parse(decodeURIComponent(hash));
+        } else {
+          config = {
+            gluroo_token: localStorage.getItem('gluroo_token') || '',
+            scripts: JSON.parse(localStorage.getItem('custom_scripts') || '[]')
+          };
         }
-      } catch(e) {}
-    } else {
-      setPreset(1, '💚', 'BET', 'fetchEspn(244, callback);');
-      setPreset(2, '🔴', 'ATM', 'fetchEspn(1068, callback);');
-      setPreset(3, '👑', 'RMA', 'fetchEspn(86, callback);');
-      setPreset(4, '🔵', 'BAR', 'fetchEspn(83, callback);');
-    }
-  }
 
-  document.getElementById('btn-save').addEventListener('click', function() {
-    var scripts = [];
-    for (var i = 1; i <= 4; i++) {
-      var code = document.getElementById('code_' + i).value.trim();
-      var icon = document.getElementById('icon_' + i).value.trim();
-      var label = document.getElementById('label_' + i).value.trim();
+        if (config.gluroo_token) {
+          document.getElementById('gluroo_token').value = config.gluroo_token;
+        }
 
-      if (code !== '') {
-        var finalLabel = label;
-        if (icon !== '' && label !== '') finalLabel = icon + " " + label;
-        else if (icon !== '') finalLabel = icon;
-
-        scripts.push({
-          code: code,
-          icon: icon,
-          label: finalLabel
-        });
+        var scripts = config.scripts || [];
+        for (var i = 0; i < 4; i++) {
+          if (scripts[i]) {
+            document.getElementById('label_' + i).value = scripts[i].label || '';
+            document.getElementById('code_' + i).value = scripts[i].code || '';
+          }
+        }
+      } catch(e) {
+        console.log("Error cargando configuración:", e);
       }
     }
 
-    var config = {
-      gluroo_token: document.getElementById('gluroo_token').value.trim(),
-      scripts: scripts
-    };
+    // Guardar y retornar a Pebble
+    function saveAndClose() {
+      var scripts = [];
+      for (var i = 0; i < 4; i++) {
+        var label = document.getElementById('label_' + i).value.trim();
+        var code = document.getElementById('code_' + i).value.trim();
+        if (label !== '' || code !== '') {
+          scripts.push({
+            label: label || ('U' + (i + 1)),
+            code: code
+          });
+        }
+      }
 
-    localStorage.setItem('pebble_js_settings', JSON.stringify(config));
+      var config = {
+        gluroo_token: document.getElementById('gluroo_token').value.trim(),
+        scripts: scripts
+      };
 
-    var returnTo = getQueryParam('return_to', 'pebblejs://close#');
-    window.location.href = returnTo + encodeURIComponent(JSON.stringify(config));
-  });
+      // Guardar en localStorage del navegador
+      localStorage.setItem('gluroo_token', config.gluroo_token);
+      localStorage.setItem('custom_scripts', JSON.stringify(config.scripts));
 
-  document.getElementById('btn-cancel').addEventListener('click', function() {
-    var returnTo = getQueryParam('return_to', 'pebblejs://close#');
-    window.location.href = returnTo;
-  });
+      // Retornar a la app de Pebble
+      var returnUrl = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(config));
+      window.location.href = returnUrl;
+    }
 
-  loadSettings();
-</script>
-
+    window.onload = loadConfig;
+  </script>
 </body>
 </html>
