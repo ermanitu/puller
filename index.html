@@ -10,9 +10,10 @@
       --card-bg: #1e1e1e;
       --text: #ffffff;
       --text-muted: #a0a0a0;
-      --accent: #00e676; /* Verde lima / Betis */
+      --accent: #00e676; /* Verde táctico */
       --border: #333333;
       --input-bg: #2a2a2a;
+      --btn-test: #2979ff;
     }
     * {
       box-sizing: border-box;
@@ -35,6 +36,370 @@
       font-weight: 700;
       color: var(--accent);
     }
+    .header p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 8px;
+      outline: none;
+      font-family: monospace;
+    }
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+    textarea {
+      height: 60px;
+      resize: vertical;
+    }
+    .icon-palette {
+      background: #181818;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+    .icon-palette-title {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .icon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .icon-chip {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .icon-chip:active {
+      background: var(--accent);
+      color: #000;
+    }
+    
+    /* Botones y resultados de Test */
+    .test-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+    }
+    .btn-test {
+      background: #222;
+      border: 1px solid var(--btn-test);
+      color: var(--btn-test);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-test:active {
+      background: var(--btn-test);
+      color: #fff;
+    }
+    .test-output {
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .btn-save {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: #000000;
+    }
+    .btn-save:active {
+      background: #00c853;
+    }
+    .script-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .script-badge {
+      background: #333;
+      color: var(--accent);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      border: 1px solid var(--accent);
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Pebble Puller</h1>
+    <p>Configuración de Pantalla y Scripts</p>
+  </div>
+
+  <!-- SELECTOR DE ICONOS COMPATIBLES -->
+  <div class="card">
+    <div class="card-title">💡 Iconos Compatibles Pebble</div>
+    <div class="icon-palette">
+      <span class="icon-palette-title">Toca un icono para insertarlo en la casilla activa:</span>
+      <div class="icon-grid">
+        <span class="icon-chip" onclick="insertSymbol('♥')">♥ Corazón</span>
+        <span class="icon-chip" onclick="insertSymbol('★')">★ Estrella</span>
+        <span class="icon-chip" onclick="insertSymbol('⚡')">⚡ Rayo</span>
+        <span class="icon-chip" onclick="insertSymbol('●')">● Punto</span>
+        <span class="icon-chip" onclick="insertSymbol('▲')">▲ Subida</span>
+        <span class="icon-chip" onclick="insertSymbol('▼')">▼ Bajada</span>
+        <span class="icon-chip" onclick="insertSymbol('℃')">℃ Grados</span>
+        <span class="icon-chip" onclick="insertSymbol('☁')">☁ Nube</span>
+        <span class="icon-chip" onclick="insertSymbol('☂')">☂ Lluvia</span>
+        <span class="icon-chip" onclick="insertSymbol('✔')">✔ Check</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIGURACIÓN DE GLUROO / NIGHTSCOUT -->
+  <div class="card">
+    <div class="card-title">🩸 Gluroo / Nightscout</div>
+    <label for="gluroo_token">Token o URL de Gluroo:</label>
+    <input type="text" id="gluroo_token" placeholder="e8bae8c4-0c1e-4b5b-9387-698fc0fd6cf4">
+    <div class="test-row">
+      <button type="button" class="btn-test" onclick="testGluroo()">▶ Probar Gluroo</button>
+      <span id="output_gluroo" class="test-output">Listo para probar</span>
+    </div>
+  </div>
+
+  <!-- SCRIPTS PERSONALIZADOS (1 a 4) -->
+  <div class="card">
+    <div class="card-title">⚙️ Scripts & URLs Personalizadas</div>
+    
+    <!-- Script 1 -->
+    <div style="border-bottom: 1px solid #2a2a2a; margin-bottom: 14px;">
+      <div class="script-header">
+        <label>Script 1</label>
+        <span class="script-badge">U1</span>
+      </div>
+      <input type="text" id="label_0" placeholder="Etiqueta (ej: ♥ BET)">
+      <textarea id="code_0" placeholder='fetchEspn("244", callback);'></textarea>
+      <div class="test-row">
+        <button type="button" class="btn-test" onclick="testScript(0)">▶ Probar</button>
+        <span id="output_0" class="test-output">Listo para probar</span>
+      </div>
+    </div>
+
+    <!-- Script 2 -->
+    <div style="border-bottom: 1px solid #2a2a2a; margin-bottom: 14px;">
+      <div class="script-header">
+        <label>Script 2</label>
+        <span class="script-badge">U2</span>
+      </div>
+      <input type="text" id="label_1" placeholder="Etiqueta (ej: ⚡ RMA)">
+      <textarea id="code_1" placeholder='fetchEspn("86", callback);'></textarea>
+      <div class="test-row">
+        <button type="button" class="btn-test" onclick="testScript(1)">▶ Probar</button>
+        <span id="output_1" class="test-output">Listo para probar</span>
+      </div>
+    </div>
+
+    <!-- Script 3 -->
+    <div style="border-bottom: 1px solid #2a2a2a; margin-bottom: 14px;">
+      <div class="script-header">
+        <label>Script 3</label>
+        <span class="script-badge">U3</span>
+      </div>
+      <input type="text" id="label_2" placeholder="Etiqueta (ej: ▲ AAPL)">
+      <textarea id="code_2" placeholder="// Código"></textarea>
+      <div class="test-row">
+        <button type="button" class="btn-test" onclick="testScript(2)">▶ Probar</button>
+        <span id="output_2" class="test-output">Listo para probar</span>
+      </div>
+    </div>
+
+    <!-- Script 4 -->
+    <div>
+      <div class="script-header">
+        <label>Script 4</label>
+        <span class="script-badge">U4</span>
+      </div>
+      <input type="text" id="label_3" placeholder="Etiqueta (ej: ★ NOTA)">
+      <textarea id="code_3" placeholder="// Código"></textarea>
+      <div class="test-row">
+        <button type="button" class="btn-test" onclick="testScript(3)">▶ Probar</button>
+        <span id="output_3" class="test-output">Listo para probar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÓN GUARDAR -->
+  <button type="button" class="btn-save" onclick="saveAndClose()">GUARDAR EN EL RELOJ</button>
+
+  <div class="footer">
+    Pebble Puller • Modo Táctico
+  </div>
+
+  <script>
+    var lastFocusedInput = null;
+
+    document.addEventListener('focusin', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        lastFocusedInput = e.target;
+      }
+    });
+
+    function insertSymbol(sym) {
+      if (lastFocusedInput) {
+        var start = lastFocusedInput.selectionStart || 0;
+        var end = lastFocusedInput.selectionEnd || 0;
+        var val = lastFocusedInput.value;
+        lastFocusedInput.value = val.substring(0, start) + sym + val.substring(end);
+        lastFocusedInput.focus();
+        lastFocusedInput.setSelectionRange(start + sym.length, start + sym.length);
+      } else {
+        var def = document.getElementById('label_0');
+        def.value = sym + ' ' + def.value;
+        def.focus();
+      }
+    }
+
+    function getQueryParam(variable, defaultVal) {
+      var query = window.location.search.substring(1);
+      var vars = query.split('&');
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (pair[0] === variable) {
+          return decodeURIComponent(pair[1]);
+        }
+      }
+      return defaultVal;
+    }
+
+    // ==========================================
+    // HELPERS PARA PROBAR DIRECTAMENTE EN LA WEB
+    // ==========================================
+
+    function fetchEspn(id, callback) {
+      var url = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/" + id + "/schedule";
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.timeout = 10000;
+      xhr.onload = function() {
+        try {
+          var res = JSON.parse(xhr.responseText);
+          var events = res.events || [];
+          if (events.length === 0) { callback("Sin partidos"); return; }
+          var ev = events[events.length - 1];
+          for (var i = 0; i < events.length; i++) {
+            var st = events[i].competitions[0].status.type.state;
+            if (st === "in") { ev = events[i]; break; }
+            if (st === "post") { ev = events[i]; }
+          }
+          var comp = ev.competitions[0];
+          var h = comp.competitors[0], a = comp.competitors[1];
+          var sh = (h.score && h.score.displayValue) ? h.score.displayValue : (h.score || "0");
+          var sa = (a.score && a.score.displayValue) ? a.score.displayValue : (a.score || "0");
+          var hb = ((h.team && h.team.abbreviation) || "LOC").substring(0, 4);
+          var ab = ((a.team && a.team.abbreviation) || "VIS").substring(0, 4);
+          callback(hb + " " + sh + "-" + sa + " " + ab);
+        } catch(e) { callback("Error ESPN"); }
+      };
+      xhr.onerror = function() { callback("Error de red"); };
+      xhr.ontimeout = function() { callback("Timeout"); };
+      xhr.send();
+    }
+
+    function fetchJson(url, key, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.timeout = 10000;
+      xhr.onload = function() {
+        try {
+          var d = JSON.parse(xhr.responseText);
+          var val = d;
+          if (key) {
+            var parts = key.split('.');
+            for (var p = 0; p < parts.length; p++) val = val[parts[p]];
+          }
+          callback(String(val !== undefined ? val : "--"));
+        } catch(e) { callback("Error parse"); }
+      };
+      xhr.onerror = function() { callback("Error red"); };
+      xhr.ontimeout = function() { callback("Timeout"); };
+      xhr.send();
+    }
+
+    // ==========================================
+    // EJECUTORES DE PRUEBA
+    // ==========================================
+
+    function testGluroo() {
+      var token = document.getElementById('gluroo_token').value.trim();
+      var out = document.getElementById('output_gluroo');
+      if (!token) {
+        out.innerText = "Introduce un token primero";
+        out.style.color = "#ff5252";
+        return;
+      }
+      out.innerText = "Consultando...";
+      out.style.color = "#2979ff";
+
+      var url = (token.indexOf("http") === 0) ? token :
+        "https://e8ba.ns.gluroo.com:39893/api/v1/entries.json?token=" + token + "&count=2";
+
+      var xhr = new XMLHttpRequest();
+      xhr.timeout = 10000;
+      xhr.open('GET', url, true);    }
     .header p {
       font-size: 13px;
       color: var(--text-muted);
