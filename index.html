@@ -10,10 +10,9 @@
       --card-bg: #1e1e1e;
       --text: #ffffff;
       --text-muted: #a0a0a0;
-      --accent: #00e676; /* Verde táctico */
+      --accent: #00e676; /* Verde Betis */
       --border: #333333;
       --input-bg: #2a2a2a;
-      --btn-test: #2979ff;
     }
     * {
       box-sizing: border-box;
@@ -35,6 +34,426 @@
       font-size: 20px;
       font-weight: 700;
       color: var(--accent);
+    }
+    .header p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      color: #ffffff;
+      background: var(--input-bg);
+      margin-bottom: 10px;
+    }
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    textarea {
+      font-family: Consolas, Menlo, Monaco, monospace;
+      font-size: 13px;
+      min-height: 65px;
+      resize: vertical;
+    }
+    
+    /* PALETA DE ICONOS NATIVOS */
+    .icon-palette {
+      background: #252525;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 14px;
+    }
+    .icon-palette-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .icon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .icon-chip {
+      background: #333333;
+      border: 1px solid #444444;
+      color: #ffffff;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .icon-chip:active {
+      background: var(--accent);
+      color: #000000;
+    }
+    
+    /* FILA DE PROBAR */
+    .test-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .btn-test {
+      background: #252525;
+      border: 1px solid #2979ff;
+      color: #2979ff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-test:active {
+      background: #2979ff;
+      color: #fff;
+    }
+    .test-out {
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .btn-save {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: #000000;
+    }
+    .btn-save:active {
+      background: #00c853;
+    }
+    .script-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .script-badge {
+      background: #333;
+      color: var(--accent);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      border: 1px solid var(--accent);
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #666666;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Pebble Puller</h1>
+    <p>Configuración de Pantalla y Scripts</p>
+  </div>
+
+  <!-- SELECTOR DE ICONOS COMPATIBLES -->
+  <div class="card">
+    <div class="card-title">💡 Iconos Compatibles Pebble</div>
+    <div class="icon-palette">
+      <span class="icon-palette-title">Toca un icono para pegarlo:</span>
+      <div class="icon-grid">
+        <span class="icon-chip" onclick="insertSymbol('♥')">♥ Corazón</span>
+        <span class="icon-chip" onclick="insertSymbol('★')">★ Estrella</span>
+        <span class="icon-chip" onclick="insertSymbol('⚡')">⚡ Rayo</span>
+        <span class="icon-chip" onclick="insertSymbol('●')">● Punto</span>
+        <span class="icon-chip" onclick="insertSymbol('▲')">▲ Subida</span>
+        <span class="icon-chip" onclick="insertSymbol('▼')">▼ Bajada</span>
+        <span class="icon-chip" onclick="insertSymbol('℃')">℃ Temp</span>
+        <span class="icon-chip" onclick="insertSymbol('☁')">☁ Nube</span>
+        <span class="icon-chip" onclick="insertSymbol('☂')">☂ Lluvia</span>
+        <span class="icon-chip" onclick="insertSymbol('✔')">✔ Check</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIGURACIÓN DE GLUROO / NIGHTSCOUT -->
+  <div class="card">
+    <div class="card-title">🩸 Gluroo / Nightscout</div>
+    <label for="gluroo_token">Token de Gluroo (opcional):</label>
+    <input type="text" id="gluroo_token" placeholder="gluroo-token-12345">
+  </div>
+
+  <!-- SCRIPTS PERSONALIZADOS (1 a 4) -->
+  <div class="card">
+    <div class="card-title">⚙️ Scripts & URLs Personalizadas</div>
+    
+    <!-- Script 1 -->
+    <div style="border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; margin-bottom: 12px;">
+      <div class="script-header">
+        <label>Script 1</label>
+        <span class="script-badge">U1</span>
+      </div>
+      <input type="text" id="label_0" placeholder="Etiqueta (ej: ♥ BET)">
+      <textarea id="code_0" placeholder='fetchEspn("244", callback);'></textarea>
+      <div class="test-bar">
+        <button type="button" class="btn-test" onclick="testScript(0)">▶ Probar</button>
+        <span id="out_0" class="test-out"></span>
+      </div>
+    </div>
+
+    <!-- Script 2 -->
+    <div style="border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; margin-bottom: 12px;">
+      <div class="script-header">
+        <label>Script 2</label>
+        <span class="script-badge">U2</span>
+      </div>
+      <input type="text" id="label_1" placeholder="Etiqueta (ej: ⚡ RMA)">
+      <textarea id="code_1" placeholder='fetchEspn("86", callback);'></textarea>
+      <div class="test-bar">
+        <button type="button" class="btn-test" onclick="testScript(1)">▶ Probar</button>
+        <span id="out_1" class="test-out"></span>
+      </div>
+    </div>
+
+    <!-- Script 3 -->
+    <div style="border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; margin-bottom: 12px;">
+      <div class="script-header">
+        <label>Script 3</label>
+        <span class="script-badge">U3</span>
+      </div>
+      <input type="text" id="label_2" placeholder="Etiqueta (ej: AAPL)">
+      <textarea id="code_2" placeholder="// Código"></textarea>
+      <div class="test-bar">
+        <button type="button" class="btn-test" onclick="testScript(2)">▶ Probar</button>
+        <span id="out_2" class="test-out"></span>
+      </div>
+    </div>
+
+    <!-- Script 4 -->
+    <div>
+      <div class="script-header">
+        <label>Script 4</label>
+        <span class="script-badge">U4</span>
+      </div>
+      <input type="text" id="label_3" placeholder="Etiqueta (ej: NOTA)">
+      <textarea id="code_3" placeholder="// Código"></textarea>
+      <div class="test-bar">
+        <button type="button" class="btn-test" onclick="testScript(3)">▶ Probar</button>
+        <span id="out_3" class="test-out"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÓN GUARDAR -->
+  <button type="button" class="btn btn-save" onclick="saveAndClose()">GUARDAR CONFIGURACIÓN</button>
+
+  <div class="footer">
+    Pebble Puller • Tema Oscuro
+  </div>
+
+  <script>
+    var lastFocusedInput = null;
+
+    document.addEventListener('focusin', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        lastFocusedInput = e.target;
+      }
+    });
+
+    function insertSymbol(sym) {
+      if (lastFocusedInput) {
+        var start = lastFocusedInput.selectionStart || 0;
+        var end = lastFocusedInput.selectionEnd || 0;
+        var val = lastFocusedInput.value;
+        lastFocusedInput.value = val.substring(0, start) + sym + val.substring(end);
+        lastFocusedInput.focus();
+        lastFocusedInput.setSelectionRange(start + sym.length, start + sym.length);
+      } else {
+        var def = document.getElementById('label_0');
+        def.value = sym + ' ' + def.value;
+        def.focus();
+      }
+    }
+
+    // Helper para leer query parameters (como return_to que envía iOS Pebble app)
+    function getQueryParam(variable, defaultVal) {
+      var query = window.location.search.substring(1);
+      var vars = query.split('&');
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (pair[0] === variable) {
+          return decodeURIComponent(pair[1]);
+        }
+      }
+      return defaultVal;
+    }
+
+    function loadConfig() {
+      try {
+        var hash = window.location.hash.substring(1);
+        var config = {};
+        if (hash) {
+          config = JSON.parse(decodeURIComponent(hash));
+        } else {
+          config = {
+            gluroo_token: localStorage.getItem('gluroo_token') || '',
+            scripts: JSON.parse(localStorage.getItem('custom_scripts') || '[]')
+          };
+        }
+
+        if (config.gluroo_token) {
+          document.getElementById('gluroo_token').value = config.gluroo_token;
+        }
+
+        var scripts = config.scripts || [];
+        for (var i = 0; i < 4; i++) {
+          if (scripts[i]) {
+            document.getElementById('label_' + i).value = scripts[i].label || '';
+            document.getElementById('code_' + i).value = scripts[i].code || '';
+          }
+        }
+      } catch(e) {
+        console.log("Error cargando config:", e);
+      }
+    }
+
+    // Probar el script en la web
+    function testScript(idx) {
+      var code = document.getElementById('code_' + idx).value;
+      var out = document.getElementById('out_' + idx);
+      if (!code || code.trim() === '') {
+        out.innerText = "Casilla vacía";
+        out.style.color = "#ffb703";
+        return;
+      }
+      out.innerText = "Probando...";
+      out.style.color = "#2979ff";
+
+      function callback(res) {
+        out.innerText = "OK: " + String(res);
+        out.style.color = "#00e676";
+      }
+
+      function fetchEspn(id, cb) {
+        var url = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/" + id + "/schedule";
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.timeout = 8000;
+        xhr.onload = function() {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            var events = data.events || [];
+            if (events.length === 0) { cb("Sin partidos"); return; }
+            var ev = events[events.length - 1];
+            for (var i = 0; i < events.length; i++) {
+              var st = events[i].competitions[0].status.type.state;
+              if (st === "in") { ev = events[i]; break; }
+              if (st === "post") { ev = events[i]; }
+            }
+            var comp = ev.competitions[0];
+            var h = comp.competitors[0], a = comp.competitors[1];
+            var sh = (h.score && h.score.displayValue) ? h.score.displayValue : (h.score || "0");
+            var sa = (a.score && a.score.displayValue) ? a.score.displayValue : (a.score || "0");
+            var hb = (h.team.abbreviation || "LOC").substring(0, 4);
+            var ab = (a.team.abbreviation || "VIS").substring(0, 4);
+            cb(hb + " " + sh + "-" + sa + " " + ab);
+          } catch(e) { cb("Error datos"); }
+        };
+        xhr.onerror = function() { cb("Error de red"); };
+        xhr.send();
+      }
+
+      function fetchJson(url, key, cb) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.timeout = 8000;
+        xhr.onload = function() {
+          try {
+            var d = JSON.parse(xhr.responseText);
+            var val = key ? d[key] : d;
+            cb(String(val));
+          } catch(e) { cb("Error JSON"); }
+        };
+        xhr.onerror = function() { cb("Error de red"); };
+        xhr.send();
+      }
+
+      try {
+        var fn = new Function('fetchEspn', 'fetchJson', 'callback', code);
+        fn(fetchEspn, fetchJson, callback);
+      } catch(err) {
+        out.innerText = "Error: " + err.message;
+        out.style.color = "#ff5252";
+      }
+    }
+
+    function saveAndClose() {
+      var scripts = [];
+      for (var i = 0; i < 4; i++) {
+        var label = document.getElementById('label_' + i).value.trim();
+        var code = document.getElementById('code_' + i).value.trim();
+        if (label !== '' || code !== '') {
+          scripts.push({
+            label: label || ('U' + (i + 1)),
+            code: code
+          });
+        }
+      }
+
+      var config = {
+        gluroo_token: document.getElementById('gluroo_token').value.trim(),
+        scripts: scripts
+      };
+
+      localStorage.setItem('gluroo_token', config.gluroo_token);
+      localStorage.setItem('custom_scripts', JSON.stringify(config.scripts));
+
+      // Detección automática del protocolo de retorno en iOS / Android
+      var return_to = getQueryParam('return_to', 'pebblejs://close#');
+      var configStr = encodeURIComponent(JSON.stringify(config));
+      
+      var targetUrl = return_to + configStr;
+      document.location = targetUrl;
+    }
+
+    window.onload = loadConfig;
+  </script>
+</body>
+</html>      color: var(--accent);
     }
     .header p {
       font-size: 13px;
