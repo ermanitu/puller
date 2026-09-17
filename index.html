@@ -436,7 +436,7 @@
         var code = document.getElementById('code_' + i).value.trim();
         
         var combinedLabel = icon ? (icon + " " + labelText).trim() : labelText;
-        if (combinedLabel !== '' || code !== '') {
+        if (code !== '') {
           scripts.push({
             label: combinedLabel || ('U' + (i + 1)),
             code: code
