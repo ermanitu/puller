@@ -666,6 +666,71 @@
           });
         }
       }
+    function loadConfig() {
+      try {
+        var param = getQueryParam('config', '');
+        var hash = window.location.hash.substring(1);
+        var config = null;
+
+        if (param) {
+          config = JSON.parse(decodeURIComponent(param));
+        } else if (hash) {
+          config = JSON.parse(decodeURIComponent(hash));
+        } else {
+          config = {
+            gluroo_token: localStorage.getItem('gluroo_token') || '',
+            scripts: JSON.parse(localStorage.getItem('custom_scripts') || '[]')
+          };
+        }
+
+        if (config.gluroo_token) {
+          document.getElementById('gluroo_token').value = config.gluroo_token;
+        }
+
+        var scripts = config.scripts || [];
+        for (var i = 0; i < 4; i++) {
+          if (scripts[i]) {
+            var rawLabel = scripts[i].label || '';
+            var code = scripts[i].code || '';
+            document.getElementById('code_' + i).value = code;
+
+            // Extraer icono y nombre
+            var parts = rawLabel.split(' ');
+            if (parts.length > 1) {
+              var sel = document.getElementById('icon_' + i);
+              if (sel) {
+                for (var o = 0; o < sel.options.length; o++) {
+                  if (sel.options[o].value === parts[0]) {
+                    sel.selectedIndex = o;
+                    break;
+                  }
+                }
+              }
+              document.getElementById('name_' + i).value = parts.slice(1).join(' ');
+            } else {
+              document.getElementById('name_' + i).value = rawLabel;
+            }
+          }
+        }
+      } catch(e) {
+        console.log("Error cargando config:", e);
+      }
+    }
+
+    function saveAndClose() {
+      // Guardar SIEMPRE las 4 posiciones exactas
+      var scripts = [];
+      for (var i = 0; i < 4; i++) {
+        var code = document.getElementById('code_' + i).value.trim();
+        var icon = document.getElementById('icon_' + i).value;
+        var name = document.getElementById('name_' + i).value.trim();
+        var label = (icon + ' ' + (name || ('U' + (i + 1)))).trim();
+
+        scripts.push({
+          label: code !== '' ? label : '',
+          code: code
+        });
+      }
 
       var config = {
         gluroo_token: document.getElementById('gluroo_token').value.trim(),
