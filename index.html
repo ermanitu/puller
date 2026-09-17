@@ -241,7 +241,7 @@
         </select>
         <input type="text" id="name_0" class="slot-name" placeholder="Nombre (ej: BET)">
       </div>
-      <textarea id="code_0" placeholder='fetchEspn("244", callback);'></textarea>
+      <textarea id="code_0" placeholder='// Código JS'></textarea>
       <div class="output-box" id="output_0">Sin ejecutar</div>
     </div>
 
@@ -311,7 +311,7 @@
         </select>
         <input type="text" id="name_1" class="slot-name" placeholder="Nombre (ej: RMA)">
       </div>
-      <textarea id="code_1" placeholder='fetchEspn("86", callback);'></textarea>
+      <textarea id="code_1" placeholder='// Código JS'></textarea>
       <div class="output-box" id="output_1">Sin ejecutar</div>
     </div>
 
@@ -460,7 +460,7 @@
   <button type="button" class="btn-save" onclick="saveAndClose()">GUARDAR EN EL RELOJ</button>
 
   <div class="footer">
-    Pebble Puller v2.8 • Guardado Seguro
+    Pebble Puller v2.9 • Persistencia Absoluta
   </div>
 
   <script>
@@ -604,6 +604,7 @@
       }
     }
 
+    // CARGA CON AUTO-RECUPERACIÓN: Si la URL viene vacía, usa localStorage del navegador
     function loadConfig() {
       try {
         var param = getQueryParam('config', '');
@@ -611,45 +612,49 @@
         var config = null;
 
         if (param) {
-          config = JSON.parse(decodeURIComponent(param));
+          try { config = JSON.parse(decodeURIComponent(param)); } catch(e) {}
         } else if (hash) {
-          config = JSON.parse(decodeURIComponent(hash));
-        } else {
-          config = {
-            gluroo_token: localStorage.getItem('gluroo_token') || '',
-            scripts: JSON.parse(localStorage.getItem('custom_scripts') || '[]')
-          };
+          try { config = JSON.parse(decodeURIComponent(hash)); } catch(e) {}
         }
 
-        if (config && config.gluroo_token) {
+        // Si la URL vino sin scripts, rescatar la copia de seguridad de localStorage del navegador
+        var localSavedScripts = null;
+        try {
+          localSavedScripts = JSON.parse(localStorage.getItem('pebble_puller_scripts') || '[]');
+        } catch(e) {}
+
+        var token = (config && config.gluroo_token) ? config.gluroo_token : localStorage.getItem('gluroo_token');
+        if (token) {
           var gt = document.getElementById('gluroo_token');
-          if (gt) gt.value = config.gluroo_token;
+          if (gt) gt.value = token;
         }
 
-        var scripts = (config && config.scripts) ? config.scripts : [];
-        for (var i = 0; i < 4; i++) {
-          if (scripts[i]) {
-            var rawLabel = scripts[i].label || '';
-            var code = scripts[i].code || '';
-            var cEl = document.getElementById('code_' + i);
-            if (cEl) cEl.value = code;
+        var scripts = (config && config.scripts && config.scripts.length > 0) ? config.scripts : localSavedScripts;
+        if (scripts && Array.isArray(scripts)) {
+          for (var i = 0; i < 4; i++) {
+            if (scripts[i]) {
+              var rawLabel = scripts[i].label || '';
+              var code = scripts[i].code || '';
+              var cEl = document.getElementById('code_' + i);
+              if (cEl) cEl.value = code;
 
-            var parts = rawLabel.split(' ');
-            if (parts.length > 1) {
-              var sel = document.getElementById('icon_' + i);
-              if (sel) {
-                for (var o = 0; o < sel.options.length; o++) {
-                  if (sel.options[o].value === parts[0]) {
-                    sel.selectedIndex = o;
-                    break;
+              var parts = rawLabel.split(' ');
+              if (parts.length > 1) {
+                var sel = document.getElementById('icon_' + i);
+                if (sel) {
+                  for (var o = 0; o < sel.options.length; o++) {
+                    if (sel.options[o].value === parts[0]) {
+                      sel.selectedIndex = o;
+                      break;
+                    }
                   }
                 }
+                var nEl = document.getElementById('name_' + i);
+                if (nEl) nEl.value = parts.slice(1).join(' ');
+              } else {
+                var nEl2 = document.getElementById('name_' + i);
+                if (nEl2) nEl2.value = rawLabel;
               }
-              var nEl = document.getElementById('name_' + i);
-              if (nEl) nEl.value = parts.slice(1).join(' ');
-            } else {
-              var nEl2 = document.getElementById('name_' + i);
-              if (nEl2) nEl2.value = rawLabel;
             }
           }
         }
@@ -658,6 +663,7 @@
       }
     }
 
+    // GUARDADO CON COPIA PERMANENTE
     function saveAndClose() {
       try {
         var scripts = [];
@@ -673,7 +679,6 @@
 
           var label = (icon + ' ' + (name || ('U' + (i + 1)))).trim();
 
-          // Guardamos cada slot en su posición exacta
           scripts.push({
             label: (code !== '') ? label : '',
             code: code
@@ -686,11 +691,11 @@
           scripts: scripts
         };
 
-        // Guardar localmente
+        // Guardar copia local permanente en el navegador del teléfono
         localStorage.setItem('gluroo_token', config.gluroo_token);
-        localStorage.setItem('custom_scripts', JSON.stringify(config.scripts));
+        localStorage.setItem('pebble_puller_scripts', JSON.stringify(config.scripts));
 
-        // Cerrar WebView y retornar a Pebble
+        // Retornar a la app de Pebble
         var return_to = getQueryParam('return_to', 'pebblejs://close#');
         var configStr = encodeURIComponent(JSON.stringify(config));
         window.location.href = return_to + configStr;
