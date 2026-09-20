@@ -2,729 +2,199 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pebble Puller Config</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Configuración Gluroo / Nightscout</title>
   <style>
     :root {
-      --bg: #121212;
-      --card-bg: #1e1e1e;
-      --accent: #00e676;
-      --accent-blue: #2979ff;
-      --accent-amber: #ffb703;
-      --accent-red: #ff5252;
-      --text: #ffffff;
-      --text-dim: #a4b0be;
-      --border: #333333;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --primary: #ff4757;
+      --primary-hover: #e84118;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --input-bg: #0f172a;
     }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body {
       background-color: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      margin: 0;
       padding: 16px;
-      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 440px;
+      background-color: var(--card);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
     }
     .header {
       text-align: center;
       margin-bottom: 20px;
     }
     .header h1 {
-      margin: 0;
-      font-size: 22px;
-      color: var(--accent);
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
     .header p {
-      margin: 4px 0 0 0;
-      font-size: 13px;
-      color: var(--text-dim);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 6px;
     }
-    .card {
-      background-color: var(--card-bg);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid var(--border);
-    }
-    .card-title {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: #fff;
+    .form-group {
+      margin-bottom: 18px;
     }
     label {
       display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
       margin-bottom: 6px;
-      font-size: 12px;
-      color: var(--text-dim);
+      color: var(--text);
     }
-    input[type="text"], select, textarea {
+    .input-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    input[type="text"], input[type="url"] {
       width: 100%;
-      background: #252525;
+      padding: 12px 14px;
+      background: var(--input-bg);
       border: 1px solid var(--border);
-      color: #fff;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 14px;
-      margin-bottom: 10px;
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+    input:focus {
       outline: none;
-    }
-    input[type="text"]:focus, select:focus, textarea:focus {
-      border-color: var(--accent-blue);
-    }
-    textarea {
-      font-family: "Courier New", monospace;
-      font-size: 12px;
-      resize: vertical;
-      min-height: 60px;
-    }
-    .script-block {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 14px;
-      margin-bottom: 14px;
-    }
-    .script-block:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-      margin-bottom: 0;
-    }
-    .script-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .script-title {
-      font-weight: 700;
-      color: var(--accent-amber);
-    }
-    .slot-row {
-      display: flex;
-      gap: 8px;
-    }
-    .slot-select {
-      flex: 0 0 140px;
-    }
-    .slot-name {
-      flex: 1;
-    }
-    .btn-test {
-      background: #2a2a2a;
-      border: 1px solid var(--border);
-      color: var(--accent-blue);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .output-box {
-      font-family: monospace;
-      font-size: 11px;
-      padding: 6px 10px;
-      background: #181818;
-      border-radius: 6px;
-      margin-top: 4px;
-      min-height: 18px;
-      color: var(--text-dim);
-      word-break: break-all;
+      border-color: var(--primary);
     }
     .btn-save {
       width: 100%;
-      background: var(--accent);
-      color: #000;
-      border: none;
       padding: 14px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
       margin-top: 10px;
+      transition: background 0.2s;
     }
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #666;
+    .btn-save:active {
+      background-color: var(--primary-hover);
+      transform: scale(0.98);
+    }
+    .help-card {
       margin-top: 20px;
-      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
+    .help-card strong { color: var(--text); }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1>Pebble Puller</h1>
-    <p>Configuración de Pantalla y APIs</p>
-  </div>
-
-  <!-- GLUROO -->
-  <div class="card">
-    <div class="card-title">🩸 Gluroo / Nightscout</div>
-    <label for="gluroo_token">Token de Gluroo (opcional):</label>
-    <div style="display:flex; gap:8px;">
-      <input type="text" id="gluroo_token" placeholder="gluroo-token-12345" style="margin-bottom:0;">
-      <button type="button" class="btn-test" onclick="testGluroo()">▶ Probar</button>
-    </div>
-    <div class="output-box" id="output_gluroo">Pulsa probar para testear token</div>
-  </div>
-
-  <!-- SCRIPTS -->
-  <div class="card">
-    <div class="card-title">⚙️ Scripts & URLs Personalizadas</div>
-
-    <!-- Script 1 -->
-    <div class="script-block">
-      <div class="script-header">
-        <span class="script-title">Script 1</span>
-        <button type="button" class="btn-test" onclick="testScript(0)">▶ Probar</button>
-      </div>
-      <div class="slot-row">
-        <select id="icon_0" class="slot-select">
-          <optgroup label="⚽ Deportes">
-            <option value="♥" selected>♥ Betis</option>
-            <option value="⚽">⚽ Fútbol</option>
-            <option value="★">★ Madrid</option>
-            <option value="☆">☆ Estrella blanca</option>
-            <option value="⚔">⚔ Derbi / VS</option>
-            <option value="⛳">⛳ Bandera Golf</option>
-            <option value="⚐">⚐ Banderín</option>
-            <option value="⚾">⚾ Béisbol</option>
-          </optgroup>
-          <optgroup label="📈 Bolsa & Divisas">
-            <option value="▲">▲ Subida</option>
-            <option value="▼">▼ Bajada</option>
-            <option value="►">► Lateral</option>
-            <option value="◆">◆ Rombo cotización</option>
-            <option value="◇">◇ Rombo hueco</option>
-            <option value="€">€ Euro</option>
-            <option value="$">$ Dólar</option>
-            <option value="£">£ Libra</option>
-            <option value="¥">¥ Yen</option>
-            <option value="¤">¤ Divisa</option>
-            <option value="%">% Porcentaje</option>
-            <option value="§">§ Índice</option>
-          </optgroup>
-          <optgroup label="🩸 Salud & Estado">
-            <option value="♥">♥ Glucosa / Pulso</option>
-            <option value="♡">♡ Alerta / Baja</option>
-            <option value="+">+ Cruz Salud</option>
-            <option value="⚡">⚡ Insulina / Rápido</option>
-            <option value="●">● En rango (OK)</option>
-            <option value="○">○ Fuera de rango</option>
-            <option value="◎">◎ Objetivo</option>
-          </optgroup>
-          <optgroup label="☁️ Tiempo & Clima">
-            <option value="☀">☀ Sol</option>
-            <option value="☁">☁ Nube</option>
-            <option value="☂">☂ Lluvia</option>
-            <option value="⚡">⚡ Tormenta</option>
-            <option value="☃">☃ Nieve</option>
-            <option value="℃">℃ Celsius</option>
-            <option value="℉">℉ Fahrenheit</option>
-          </optgroup>
-          <optgroup label="⚙️ Utilidades & Otros">
-            <option value="✔">✔ OK</option>
-            <option value="✖">✖ Error</option>
-            <option value="⏱">⏱ Crono</option>
-            <option value="⌚">⌚ Reloj</option>
-            <option value="✉">✉ Correo</option>
-            <option value="✎">✎ Nota</option>
-            <option value="♫">♫ Música</option>
-            <option value="✈">✈ Avión</option>
-            <option value="☎">☎ Teléfono</option>
-            <option value="■">■ Stop</option>
-            <option value="►">► Play</option>
-          </optgroup>
-        </select>
-        <input type="text" id="name_0" class="slot-name" placeholder="Nombre (ej: BET)">
-      </div>
-      <textarea id="code_0" placeholder='// Código JS'></textarea>
-      <div class="output-box" id="output_0">Sin ejecutar</div>
+  <div class="container">
+    <div class="header">
+      <h1>🩸 Gluroo / Nightscout</h1>
+      <p>Configuración de glucemia para tu Pebble</p>
     </div>
 
-    <!-- Script 2 -->
-    <div class="script-block">
-      <div class="script-header">
-        <span class="script-title">Script 2</span>
-        <button type="button" class="btn-test" onclick="testScript(1)">▶ Probar</button>
+    <form id="configForm">
+      <div class="form-group">
+        <label for="nightscout_url">1. URL del Servidor / Gluroo</label>
+        <div class="input-desc">Incluye el puerto asignado (ej: <code>https://e8ba.ns.gluroo.com:39893</code>)</div>
+        <input type="text" id="nightscout_url" placeholder="https://xxxx.ns.gluroo.com:PUERTO" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
-      <div class="slot-row">
-        <select id="icon_1" class="slot-select">
-          <optgroup label="⚽ Deportes">
-            <option value="⚽" selected>⚽ Fútbol</option>
-            <option value="♥">♥ Betis</option>
-            <option value="★">★ Madrid</option>
-            <option value="☆">☆ Estrella blanca</option>
-            <option value="⚔">⚔ Derbi / VS</option>
-            <option value="⛳">⛳ Bandera Golf</option>
-            <option value="⚐">⚐ Banderín</option>
-            <option value="⚾">⚾ Béisbol</option>
-          </optgroup>
-          <optgroup label="📈 Bolsa & Divisas">
-            <option value="▲">▲ Subida</option>
-            <option value="▼">▼ Bajada</option>
-            <option value="►">► Lateral</option>
-            <option value="◆">◆ Rombo cotización</option>
-            <option value="◇">◇ Rombo hueco</option>
-            <option value="€">€ Euro</option>
-            <option value="$">$ Dólar</option>
-            <option value="£">£ Libra</option>
-            <option value="¥">¥ Yen</option>
-            <option value="¤">¤ Divisa</option>
-            <option value="%">% Porcentaje</option>
-            <option value="§">§ Índice</option>
-          </optgroup>
-          <optgroup label="🩸 Salud & Estado">
-            <option value="♥">♥ Glucosa / Pulso</option>
-            <option value="♡">♡ Alerta / Baja</option>
-            <option value="+">+ Cruz Salud</option>
-            <option value="⚡">⚡ Insulina / Rápido</option>
-            <option value="●">● En rango (OK)</option>
-            <option value="○">○ Fuera de rango</option>
-            <option value="◎">◎ Objetivo</option>
-          </optgroup>
-          <optgroup label="☁️ Tiempo & Clima">
-            <option value="☀">☀ Sol</option>
-            <option value="☁">☁ Nube</option>
-            <option value="☂">☂ Lluvia</option>
-            <option value="⚡">⚡ Tormenta</option>
-            <option value="☃">☃ Nieve</option>
-            <option value="℃">℃ Celsius</option>
-            <option value="℉">℉ Fahrenheit</option>
-          </optgroup>
-          <optgroup label="⚙️ Utilidades & Otros">
-            <option value="✔">✔ OK</option>
-            <option value="✖">✖ Error</option>
-            <option value="⏱">⏱ Crono</option>
-            <option value="⌚">⌚ Reloj</option>
-            <option value="✉">✉ Correo</option>
-            <option value="✎">✎ Nota</option>
-            <option value="♫">♫ Música</option>
-            <option value="✈">✈ Avión</option>
-            <option value="☎">☎ Teléfono</option>
-            <option value="■">■ Stop</option>
-            <option value="►">► Play</option>
-          </optgroup>
-        </select>
-        <input type="text" id="name_1" class="slot-name" placeholder="Nombre (ej: RMA)">
+
+      <div class="form-group">
+        <label for="api_key">2. Token de Seguridad / API Secret</label>
+        <div class="input-desc">Token alfanumérico copiado de Gluroo</div>
+        <input type="text" id="api_key" placeholder="e8bae8c4-0c1e-4b5b-9387-698fc0fd6cf4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
-      <textarea id="code_1" placeholder='// Código JS'></textarea>
-      <div class="output-box" id="output_1">Sin ejecutar</div>
+
+      <button type="submit" class="btn-save">💾 Guardar Configuración</button>
+    </form>
+
+    <div class="help-card">
+      <strong>¿Dónde encontrar estos datos?</strong><br>
+      Abre la app <strong>Gluroo</strong> en tu móvil ➡️ ⚙️ <strong>Ajustes</strong> ➡️ <strong>Account</strong> (o <em>Nightscout Bridge</em>) y copia tu <strong>Nightscout Host/URL</strong> y tu <strong>Security Token</strong>.
     </div>
-
-    <!-- Script 3 -->
-    <div class="script-block">
-      <div class="script-header">
-        <span class="script-title">Script 3</span>
-        <button type="button" class="btn-test" onclick="testScript(2)">▶ Probar</button>
-      </div>
-      <div class="slot-row">
-        <select id="icon_2" class="slot-select">
-          <optgroup label="📈 Bolsa & Divisas">
-            <option value="▲" selected>▲ Subida</option>
-            <option value="▼">▼ Bajada</option>
-            <option value="►">► Lateral</option>
-            <option value="◆">◆ Rombo cotización</option>
-            <option value="◇">◇ Rombo hueco</option>
-            <option value="€">€ Euro</option>
-            <option value="$">$ Dólar</option>
-            <option value="£">£ Libra</option>
-            <option value="¥">¥ Yen</option>
-            <option value="¤">¤ Divisa</option>
-            <option value="%">% Porcentaje</option>
-            <option value="§">§ Índice</option>
-          </optgroup>
-          <optgroup label="⚽ Deportes">
-            <option value="⚽">⚽ Fútbol</option>
-            <option value="♥">♥ Betis</option>
-            <option value="★">★ Madrid</option>
-            <option value="☆">☆ Estrella blanca</option>
-            <option value="⚔">⚔ Derbi / VS</option>
-            <option value="⛳">⛳ Bandera Golf</option>
-            <option value="⚐">⚐ Banderín</option>
-            <option value="⚾">⚾ Béisbol</option>
-          </optgroup>
-          <optgroup label="🩸 Salud & Estado">
-            <option value="♥">♥ Glucosa / Pulso</option>
-            <option value="♡">♡ Alerta / Baja</option>
-            <option value="+">+ Cruz Salud</option>
-            <option value="⚡">⚡ Insulina / Rápido</option>
-            <option value="●">● En rango (OK)</option>
-            <option value="○">○ Fuera de rango</option>
-            <option value="◎">◎ Objetivo</option>
-          </optgroup>
-          <optgroup label="☁️ Tiempo & Clima">
-            <option value="☀">☀ Sol</option>
-            <option value="☁">☁ Nube</option>
-            <option value="☂">☂ Lluvia</option>
-            <option value="⚡">⚡ Tormenta</option>
-            <option value="☃">☃ Nieve</option>
-            <option value="℃">℃ Celsius</option>
-            <option value="℉">℉ Fahrenheit</option>
-          </optgroup>
-          <optgroup label="⚙️ Utilidades & Otros">
-            <option value="✔">✔ OK</option>
-            <option value="✖">✖ Error</option>
-            <option value="⏱">⏱ Crono</option>
-            <option value="⌚">⌚ Reloj</option>
-            <option value="✉">✉ Correo</option>
-            <option value="✎">✎ Nota</option>
-            <option value="♫">♫ Música</option>
-            <option value="✈">✈ Avión</option>
-            <option value="☎">☎ Teléfono</option>
-            <option value="■">■ Stop</option>
-            <option value="►">► Play</option>
-          </optgroup>
-        </select>
-        <input type="text" id="name_2" class="slot-name" placeholder="Nombre (ej: IBEX)">
-      </div>
-      <textarea id="code_2" placeholder="// Código JS"></textarea>
-      <div class="output-box" id="output_2">Sin ejecutar</div>
-    </div>
-
-    <!-- Script 4 -->
-    <div class="script-block">
-      <div class="script-header">
-        <span class="script-title">Script 4</span>
-        <button type="button" class="btn-test" onclick="testScript(3)">▶ Probar</button>
-      </div>
-      <div class="slot-row">
-        <select id="icon_3" class="slot-select">
-          <optgroup label="⚙️ Utilidades & Otros">
-            <option value="✔" selected>✔ OK</option>
-            <option value="✖">✖ Error</option>
-            <option value="⏱">⏱ Crono</option>
-            <option value="⌚">⌚ Reloj</option>
-            <option value="✉">✉ Correo</option>
-            <option value="✎">✎ Nota</option>
-            <option value="♫">♫ Música</option>
-            <option value="✈">✈ Avión</option>
-            <option value="☎">☎ Teléfono</option>
-            <option value="■">■ Stop</option>
-            <option value="►">► Play</option>
-          </optgroup>
-          <optgroup label="📈 Bolsa & Divisas">
-            <option value="▲">▲ Subida</option>
-            <option value="▼">▼ Bajada</option>
-            <option value="►">► Lateral</option>
-            <option value="◆">◆ Rombo cotización</option>
-            <option value="◇">◇ Rombo hueco</option>
-            <option value="€">€ Euro</option>
-            <option value="$">$ Dólar</option>
-            <option value="£">£ Libra</option>
-            <option value="¥">¥ Yen</option>
-            <option value="¤">¤ Divisa</option>
-            <option value="%">% Porcentaje</option>
-            <option value="§">§ Índice</option>
-          </optgroup>
-          <optgroup label="⚽ Deportes">
-            <option value="⚽">⚽ Fútbol</option>
-            <option value="♥">♥ Betis</option>
-            <option value="★">★ Madrid</option>
-            <option value="☆">☆ Estrella blanca</option>
-            <option value="⚔">⚔ Derbi / VS</option>
-            <option value="⛳">⛳ Bandera Golf</option>
-            <option value="⚐">⚐ Banderín</option>
-            <option value="⚾">⚾ Béisbol</option>
-          </optgroup>
-          <optgroup label="🩸 Salud & Estado">
-            <option value="♥">♥ Glucosa / Pulso</option>
-            <option value="♡">♡ Alerta / Baja</option>
-            <option value="+">+ Cruz Salud</option>
-            <option value="⚡">⚡ Insulina / Rápido</option>
-            <option value="●">● En rango (OK)</option>
-            <option value="○">○ Fuera de rango</option>
-            <option value="◎">◎ Objetivo</option>
-          </optgroup>
-          <optgroup label="☁️ Tiempo & Clima">
-            <option value="☀">☀ Sol</option>
-            <option value="☁">☁ Nube</option>
-            <option value="☂">☂ Lluvia</option>
-            <option value="⚡">⚡ Tormenta</option>
-            <option value="☃">☃ Nieve</option>
-            <option value="℃">℃ Celsius</option>
-            <option value="℉">℉ Fahrenheit</option>
-          </optgroup>
-        </select>
-        <input type="text" id="name_3" class="slot-name" placeholder="Nombre (ej: NOTA)">
-      </div>
-      <textarea id="code_3" placeholder="// Código JS"></textarea>
-      <div class="output-box" id="output_3">Sin ejecutar</div>
-    </div>
-
-  </div>
-
-  <button type="button" class="btn-save" onclick="saveAndClose()">GUARDAR EN EL RELOJ</button>
-
-  <div class="footer">
-    Pebble Puller v3.0 • Persistencia Total
   </div>
 
   <script>
+    // 1. Leer parámetros iniciales de la URL (si Pebble los envía)
     function getQueryParam(variable, defaultVal) {
       var query = window.location.search.substring(1);
       var vars = query.split('&');
       for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split('=');
-        if (pair[0] === variable) {
-          try {
-            return decodeURIComponent(pair[1]);
-          } catch(e) {
-            return pair[1];
-          }
+        if (decodeURIComponent(pair[0]) === variable) {
+          return decodeURIComponent(pair[1] || '');
         }
       }
-      return defaultVal;
+      return defaultVal || '';
     }
 
-    function fetchEspn(id, callback) {
-      var url = "https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/teams/" + id + "/schedule";
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
-      xhr.timeout = 10000;
-      xhr.onload = function() {
-        try {
-          var res = JSON.parse(xhr.responseText);
-          var events = res.events || [];
-          if (events.length === 0) { callback("Sin partidos"); return; }
-          var ev = events[events.length - 1];
-          for (var i = 0; i < events.length; i++) {
-            var st = events[i].competitions[0].status.type.state;
-            if (st === "in") { ev = events[i]; break; }
-            if (st === "post") { ev = events[i]; }
-          }
-          var comp = ev.competitions[0];
-          var h = comp.competitors[0], a = comp.competitors[1];
-          var sh = (h.score && h.score.displayValue) ? h.score.displayValue : (h.score || "0");
-          var sa = (a.score && a.score.displayValue) ? a.score.displayValue : (a.score || "0");
-          var hb = ((h.team && h.team.abbreviation) || "LOC").substring(0, 4);
-          var ab = ((a.team && a.team.abbreviation) || "VIS").substring(0, 4);
-          callback(hb + " " + sh + "-" + sa + " " + ab);
-        } catch(e) { callback("Error ESPN"); }
+    // Cargar valores iniciales
+    var urlInput = document.getElementById('nightscout_url');
+    var keyInput = document.getElementById('api_key');
+
+    var initialUrl = getQueryParam('url') || getQueryParam('nightscout_url') || localStorage.getItem('nightscout_url') || '';
+    var initialKey = getQueryParam('api_key') || getQueryParam('gluroo_token') || getQueryParam('token') || localStorage.getItem('api_key') || '';
+
+    if (initialUrl) urlInput.value = initialUrl;
+    if (initialKey) keyInput.value = initialKey;
+
+    // 2. Guardar y enviar de vuelta a Pebble
+    document.getElementById('configForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var enteredUrl = urlInput.value.trim();
+      var enteredKey = keyInput.value.trim();
+
+      // Si el usuario pegó la URL completa en el campo de Token, intentar auto-extraer
+      if (enteredKey.indexOf('http') === 0 && !enteredUrl) {
+        enteredUrl = enteredKey;
+        enteredKey = '';
+      }
+
+      // Limpiar URL: quitar /api/v1... o barras al final
+      if (enteredUrl) {
+        enteredUrl = enteredUrl.replace(/\/api\/v1.*$/i, '').replace(/\/+$/, '');
+      }
+
+      var config = {
+        nightscout_url: enteredUrl,
+        api_key: enteredKey,
+        gluroo_token: enteredKey // retrocompatibilidad
       };
-      xhr.onerror = function() { callback("Error red"); };
-      xhr.ontimeout = function() { callback("Timeout"); };
-      xhr.send();
-    }
 
-    function fetchJson(url, key, callback) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
-      xhr.timeout = 10000;
-      xhr.onload = function() {
-        try {
-          var d = JSON.parse(xhr.responseText);
-          var val = d;
-          if (key) {
-            var parts = key.split('.');
-            for (var p = 0; p < parts.length; p++) val = val[parts[p]];
-          }
-          callback(String(val !== undefined ? val : "--"));
-        } catch(e) { callback("Error parse"); }
-      };
-      xhr.onerror = function() { callback("Error red"); };
-      xhr.ontimeout = function() { callback("Timeout"); };
-      xhr.send();
-    }
+      // Guardar localmente en el navegador del móvil
+      if (enteredUrl) localStorage.setItem('nightscout_url', enteredUrl);
+      if (enteredKey) localStorage.setItem('api_key', enteredKey);
 
-    function testGluroo() {
-      var token = document.getElementById('gluroo_token').value.trim();
-      var out = document.getElementById('output_gluroo');
-      if (!token) {
-        out.innerText = "Introduce un token primero";
-        out.style.color = "var(--accent-red)";
-        return;
-      }
-      out.innerText = "Consultando...";
-      out.style.color = "var(--accent-blue)";
-
-      var url = (token.indexOf("http") === 0) ? token :
-        "https://e8ba.ns.gluroo.com:39893/api/v1/entries.json?token=" + token + "&count=2";
-
-      var xhr = new XMLHttpRequest();
-      xhr.timeout = 10000;
-      xhr.open('GET', url, true);
-      xhr.onload = function() {
-        try {
-          var data = JSON.parse(xhr.responseText);
-          if (data && data.length > 0) {
-            var sgv = data[0].sgv;
-            var delta = "";
-            if (data.length >= 2 && data[1].sgv !== undefined) {
-              var d = sgv - data[1].sgv;
-              delta = " " + (d > 0 ? "+" : "") + d;
-            }
-            out.innerText = "OK: " + sgv + delta + " mg/dL";
-            out.style.color = "var(--accent)";
-          } else {
-            out.innerText = "Sin lecturas recientes";
-            out.style.color = "var(--accent-amber)";
-          }
-        } catch(e) {
-          out.innerText = "Error parseando JSON";
-          out.style.color = "var(--accent-red)";
-        }
-      };
-      xhr.onerror = function() { out.innerText = "Error red"; out.style.color = "var(--accent-red)"; };
-      xhr.ontimeout = function() { out.innerText = "Timeout"; out.style.color = "var(--accent-red)"; };
-      xhr.send();
-    }
-
-    function testScript(idx) {
-      var codeEl = document.getElementById('code_' + idx);
-      var code = codeEl ? codeEl.value.trim() : '';
-      var out = document.getElementById('output_' + idx);
-      if (!code) {
-        out.innerText = "Casilla vacía";
-        out.style.color = "var(--accent-amber)";
-        return;
-      }
-      out.innerText = "Ejecutando...";
-      out.style.color = "var(--accent-blue)";
-
-      var called = false;
-      var timer = setTimeout(function() {
-        if (!called) {
-          called = true;
-          out.innerText = "Timeout (>8s)";
-          out.style.color = "var(--accent-red)";
-        }
-      }, 8000);
-
-      try {
-        var fn = new Function('fetchEspn', 'fetchJson', 'callback', code);
-        fn(fetchEspn, fetchJson, function(res) {
-          if (called) return;
-          called = true;
-          clearTimeout(timer);
-          out.innerText = "OK: " + String(res);
-          out.style.color = "var(--accent)";
-        });
-      } catch (err) {
-        clearTimeout(timer);
-        out.innerText = "Error: " + err.message;
-        out.style.color = "var(--accent-red)";
-      }
-    }
-
-    // CARGA DE CONFIGURACIÓN SIN ERRORES DE DOBLE DECODE
-    function loadConfig() {
-      try {
-        var param = getQueryParam('config', '');
-        var hash = window.location.hash.substring(1);
-        var config = null;
-
-        if (param) {
-          try {
-            config = JSON.parse(param);
-          } catch(e) {
-            try { config = JSON.parse(decodeURIComponent(param)); } catch(e2) {}
-          }
-        }
-        
-        if (!config && hash) {
-          try {
-            config = JSON.parse(decodeURIComponent(hash));
-          } catch(e) {}
-        }
-
-        // Si la URL no traía scripts, recurrir al almacenamiento local del navegador
-        if (!config || !config.scripts || config.scripts.length === 0) {
-          try {
-            var localSaved = localStorage.getItem('custom_scripts');
-            if (localSaved) {
-              var parsedLocal = JSON.parse(localSaved);
-              if (parsedLocal && parsedLocal.length > 0) {
-                config = {
-                  gluroo_token: localStorage.getItem('gluroo_token') || '',
-                  scripts: parsedLocal
-                };
-              }
-            }
-          } catch(e) {}
-        }
-
-        if (config && config.gluroo_token) {
-          var gt = document.getElementById('gluroo_token');
-          if (gt) gt.value = config.gluroo_token;
-        }
-
-        var scripts = (config && config.scripts) ? config.scripts : [];
-        for (var i = 0; i < 4; i++) {
-          if (scripts[i]) {
-            var rawLabel = scripts[i].label || '';
-            var code = scripts[i].code || '';
-            var cEl = document.getElementById('code_' + i);
-            if (cEl) cEl.value = code;
-
-            var parts = rawLabel.split(' ');
-            if (parts.length > 1) {
-              var sel = document.getElementById('icon_' + i);
-              if (sel) {
-                for (var o = 0; o < sel.options.length; o++) {
-                  if (sel.options[o].value === parts[0]) {
-                    sel.selectedIndex = o;
-                    break;
-                  }
-                }
-              }
-              var nEl = document.getElementById('name_' + i);
-              if (nEl) nEl.value = parts.slice(1).join(' ');
-            } else {
-              var nEl2 = document.getElementById('name_' + i);
-              if (nEl2) nEl2.value = rawLabel;
-            }
-          }
-        }
-      } catch(e) {
-        console.log("Error cargando config:", e);
-      }
-    }
-
-    // GUARDADO
-    function saveAndClose() {
-      try {
-        var scripts = [];
-        for (var i = 0; i < 4; i++) {
-          var cEl = document.getElementById('code_' + i);
-          var code = cEl ? cEl.value.trim() : '';
-
-          var iEl = document.getElementById('icon_' + i);
-          var icon = iEl ? iEl.value : '★';
-
-          var nEl = document.getElementById('name_' + i);
-          var name = nEl ? nEl.value.trim() : '';
-
-          var label = (icon + ' ' + (name || ('U' + (i + 1)))).trim();
-
-          scripts.push({
-            label: (code !== '') ? label : '',
-            code: code
-          });
-        }
-
-        var gtEl = document.getElementById('gluroo_token');
-        var config = {
-          gluroo_token: gtEl ? gtEl.value.trim() : '',
-          scripts: scripts
-        };
-
-        // Guardar con la clave estándar custom_scripts
-        localStorage.setItem('gluroo_token', config.gluroo_token);
-        localStorage.setItem('custom_scripts', JSON.stringify(config.scripts));
-
-        var return_to = getQueryParam('return_to', 'pebblejs://close#');
-        var configStr = encodeURIComponent(JSON.stringify(config));
-        window.location.href = return_to + configStr;
-      } catch (err) {
-        alert("Error al guardar: " + err.message);
-      }
-    }
-
-    window.onload = loadConfig;
+      // Enviar resultado de vuelta a la app Pebble de Android / iOS
+      var returnTo = getQueryParam('return_to', 'pebblejs://close#');
+      var locationUrl = returnTo + encodeURIComponent(JSON.stringify(config));
+      window.location.href = locationUrl;
+    });
   </script>
 </body>
 </html>
