@@ -148,12 +148,23 @@
     .help-card strong {
       color: #f8fafc;
     }
+    .global-badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      margin-bottom: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
     <div class="header">
+      <span id="badge" class="global-badge" style="display:none;">✨ Datos globales cargados</span>
       <h1>⚙️ Puller Watchface</h1>
       <p>Configuración de Glucemia y Scripts</p>
     </div>
@@ -264,7 +275,7 @@
       document.getElementById('code_' + idx).value = code;
     }
 
-    function getQueryParam(variable, defaultVal) {
+    function getQueryParam(variable) {
       var query = window.location.search.substring(1);
       var vars = query.split('&');
       for (var i = 0; i < vars.length; i++) {
@@ -273,7 +284,7 @@
           return decodeURIComponent(pair[1] || '');
         }
       }
-      return defaultVal || '';
+      return '';
     }
 
     (function init() {
@@ -285,13 +296,25 @@
         } catch(e) {}
       }
 
-      var savedUrl = cfg.nightscout_url || getQueryParam('nightscout_url') || getQueryParam('url') || localStorage.getItem('puller_nightscout_url') || '';
-      var savedToken = cfg.gluroo_token || cfg.api_key || getQueryParam('gluroo_token') || getQueryParam('api_key') || localStorage.getItem('puller_gluroo_token') || '';
+      // 1. Datos específicos o datos globales compartidos
+      var specificUrl = (cfg && cfg.nightscout_url) || getQueryParam('nightscout_url') || getQueryParam('url');
+      var specificToken = (cfg && (cfg.gluroo_token || cfg.api_key)) || getQueryParam('gluroo_token') || getQueryParam('api_key');
 
-      if (savedUrl) document.getElementById('nightscout_url').value = savedUrl;
-      if (savedToken) document.getElementById('gluroo_token').value = savedToken;
+      var globalUrl = localStorage.getItem('global_nightscout_url') || '';
+      var globalToken = localStorage.getItem('global_gluroo_token') || '';
 
-      var scripts = cfg.scripts || [];
+      var finalUrl = specificUrl || globalUrl;
+      var finalToken = specificToken || globalToken;
+
+      document.getElementById('nightscout_url').value = finalUrl || '';
+      document.getElementById('gluroo_token').value = finalToken || '';
+
+      if (!specificUrl && !specificToken && (globalUrl || globalToken)) {
+        document.getElementById('badge').style.display = 'inline-block';
+      }
+
+      // 2. Scripts
+      var scripts = (cfg && cfg.scripts) || [];
       for (var i = 0; i < 4; i++) {
         if (scripts[i]) {
           document.getElementById('label_' + i).value = scripts[i].label || '';
@@ -315,6 +338,10 @@
         enteredUrl = enteredUrl.replace(/\/api\/v1.*$/i, '').replace(/\/+$/, '');
       }
 
+      // Guardar en la memoria GLOBAL compartida del móvil para todas tus demás esferas
+      if (enteredUrl) localStorage.setItem('global_nightscout_url', enteredUrl);
+      if (enteredToken) localStorage.setItem('global_gluroo_token', enteredToken);
+
       var scripts = [];
       for (var i = 0; i < 4; i++) {
         var lbl = document.getElementById('label_' + i).value.trim();
@@ -329,12 +356,8 @@
         scripts: scripts
       };
 
-      if (enteredUrl) localStorage.setItem('puller_nightscout_url', enteredUrl);
-      if (enteredToken) localStorage.setItem('puller_gluroo_token', enteredToken);
-
-      var returnTo = getQueryParam('return_to', 'pebblejs://close#');
-      var locationUrl = returnTo + encodeURIComponent(JSON.stringify(outConfig));
-      window.location.href = locationUrl;
+      var returnTo = getQueryParam('return_to') || 'pebblejs://close#';
+      window.location.href = returnTo + encodeURIComponent(JSON.stringify(outConfig));
     });
   </script>
 </body>
